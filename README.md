@@ -9,39 +9,39 @@ Ao receber a entrada inserida, ele retorna um código C do que foi escrito em Pr
 Seguindo as os requisitos de estrutura do trabalho, a gramática aceita a construção inicial sendo um aviso de inicio uma lista de variáveis, uma declaração de monitoramento com outra lista de variáveis, um token para aviso de inicio de comandos e operações e por fim, um token de termino de leitura.
 Dentro disso, algumas estruturas também tiveram que ser contempladas como a criação de loops feitos pelo (while em C) que são acionados a partir do token ‘ENQUANTO’ e também por meio da função EVAL que cria um for. 
 Além destas as operações de soma, multiplicação e redefinição dos valores também são contempladas, sendo as duas primeiras escritas em Provol-One como se fosse uma função, porém são compiladas em C apenas como operações matemática diretas. Para terminar, também foram criadas maneiras de ler condicionais por estruturas de IF-THEN ou IF-THEN-ELSE, que são replicadas na mesma lógica da linguagem C.
-- Rule 0     S' -> regra
-- Rule 1     regra -> INICIO varlist MONITOR monitorar EXECUTE cmds TERMINO
-- Rule 2     cmds -> cmd
-- Rule 3     cmds -> cmd cmds
-- Rule 4     cmd -> id IGUAL numero
-- Rule 5     cmd -> id IGUAL id
-- Rule 6     cmd -> funcao
-- Rule 7     cmd -> IF condicao THEN cmd
-- Rule 8     cmd -> ELSE cmd
-- Rule 9     cmd -> ENQUANTO condicao FACA cmds FIM
-- Rule 10    cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA
-- Rule 11    cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA
-- Rule 12    funcao -> SOMA ABRE id VIRGULA id FECHA
-- Rule 13    funcao -> SOMA ABRE id VIRGULA numero FECHA
-- Rule 14    funcao -> MULT ABRE id VIRGULA id FECHA
-- Rule 15    funcao -> MULT ABRE id VIRGULA numero FECHA
-- Rule 16    funcao -> id IGUAL MULT ABRE id VIRGULA
-- Rule 17    funcao -> ZERO ABRE id FECHA
-- Rule 18    condicao -> numero MAIOR id
-- Rule 19    condicao -> numero MENOR id
-- Rule 20    condicao -> numero IGUAL IGUAL id
-- Rule 21    condicao -> id IGUAL IGUAL id
-- Rule 22    condicao -> id IGUAL IGUAL numero
-- Rule 23    condicao -> id MAIOR id
-- Rule 24    condicao -> id MENOR id
-- Rule 25    condicao -> id MAIOR numero
-- Rule 26    condicao -> id MENOR numero
-- Rule 27    condicao -> id
-- Rule 28    monitorar -> id
-- Rule 29    monitorar -> id VIRGULA monitorar
-- Rule 30    varlist -> id
-- Rule 31    varlist -> id VIRGULA varlist
-- Rule 32    id -> variavel
+- S' -> regra
+- regra -> INICIO varlist MONITOR monitorar EXECUTE cmds TERMINO
+- cmds -> cmd
+- cmds -> cmd cmds
+- cmd -> id IGUAL numero
+- cmd -> id IGUAL id
+- cmd -> funcao
+- cmd -> IF condicao THEN cmd
+- cmd -> ELSE cmd
+- cmd -> ENQUANTO condicao FACA cmds FIM
+- cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA
+- cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA
+- funcao -> SOMA ABRE id VIRGULA id FECHA
+- funcao -> SOMA ABRE id VIRGULA numero FECHA
+- funcao -> MULT ABRE id VIRGULA id FECHA
+- funcao -> MULT ABRE id VIRGULA numero FECHA
+- funcao -> id IGUAL MULT ABRE id VIRGULA
+- funcao -> ZERO ABRE id FECHA
+- condicao -> numero MAIOR id
+- condicao -> numero MENOR id
+- condicao -> numero IGUAL IGUAL id
+- condicao -> id IGUAL IGUAL id
+- condicao -> id IGUAL IGUAL numero
+- condicao -> id MAIOR id
+- condicao -> id MENOR id
+- condicao -> id MAIOR numero
+- condicao -> id MENOR numero
+- condicao -> id
+- monitorar -> id
+- monitorar -> id VIRGULA monitorar
+- varlist -> id
+- varlist -> id VIRGULA varlist
+- id -> variavel
 
 # Observações
 Para auxiliar na lógica e para cumprir alguns requisitos foi necessário expandir a sintaxe delimitada no trabalho para conseguir fazer a leitura de todas as frases possíveis. Foi necessário criar o token não terminal “monitorar” como forma de diferenciar de um varlist qualquer, pois o varlist escreve a inicialização de uma variável no sistema enquanto o monitorar só fica guardando no processamento do código que toda vez que aparecer, é necessário um “printf”. 
