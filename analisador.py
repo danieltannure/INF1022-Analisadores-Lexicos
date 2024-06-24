@@ -8,8 +8,28 @@ import sys
 # ANÁLISE LÉXICA
 
 # Nome dos tokens de operadores e constantes
-reservados = ('INICIO', 'TERMINO', 'MONITOR', 'EXECUTE', 'ENQUANTO', 'FACA', 'FIM', 'SOMA', 'MULT', 'ZERO', 'EVAL', 'IF', 'THEN', 'ELSE', 'ABRE', 'FECHA', 'VIRGULA', 'MAIOR', 'MENOR', 'IGUAL',
-              'variavel', 'numero')
+reservados = ('INICIO', 
+              'TERMINO', 
+              'MONITOR',
+              'EXECUTE', 
+              'ENQUANTO', 
+              'FACA', 
+              'FIM', 
+              'SOMA', 
+              'MULT', 
+              'ZERO', 
+              'EVAL', 
+              'IF', 
+              'THEN',
+              'ELSE', 
+              'ABRE', 
+              'FECHA', 
+              'VIRGULA', 
+              'MAIOR', 
+              'MENOR', 
+              'IGUAL',
+              'variavel', 
+              'numero')
 
 # Expressões regulares para tokens de operadores e constantes
 t_INICIO = r'INICIO'
