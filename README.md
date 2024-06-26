@@ -127,6 +127,10 @@ Na tarefa foi proposto apenas a condição if (variavel), porém expandimos para
 
 # Testes
 
+# Testes
+
+## Tabela de Testes
+
 | Código em Provol-One | Código em C |
 | -------------------- | ----------- |
 | ```provolone
@@ -299,4 +303,3 @@ int main(void) {
     return 0;
 }
 ``` |
-
