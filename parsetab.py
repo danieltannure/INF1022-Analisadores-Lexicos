@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ABRE ELSE ENQUANTO EVAL EXECUTE FACA FECHA FIM IF IGUAL INICIO MAIOR MENOR MONITOR MULT SOMA TERMINO THEN VIRGULA ZERO numero variavel\n    regra : INICIO varlist MONITOR monitorar EXECUTE cmds TERMINO\n    \n    cmds : cmd\n         | cmd cmds\n    \n    cmd : id IGUAL numero\n        | id IGUAL id\n        | funcao\n        | IF condicao THEN cmd\n        | ELSE cmd\n        | ENQUANTO condicao FACA cmds FIM\n        | EVAL ABRE id VIRGULA id VIRGULA cmds FECHA\n        | EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA\n    \n    funcao : SOMA ABRE id VIRGULA id FECHA\n           | SOMA ABRE id VIRGULA numero FECHA\n           | MULT ABRE id VIRGULA id FECHA\n           | MULT ABRE id VIRGULA numero FECHA\n           | id IGUAL MULT ABRE id VIRGULA\n           | ZERO ABRE id FECHA\n    \n    condicao : numero MAIOR id\n             | numero MENOR id\n             | numero IGUAL IGUAL id\n             | id IGUAL IGUAL id\n             | id IGUAL IGUAL numero\n             | id MAIOR id\n             | id MENOR id\n             | id MAIOR numero\n             | id MENOR numero\n             | id\n    \n    monitorar : id\n              | id VIRGULA monitorar\n    \n    varlist : id\n            | id VIRGULA varlist\n    \n    id : variavel\n    '
+_lr_signature = 'ABRE ELSE ENQUANTO EVAL EXECUTE FACA FECHA FIM IF IGUAL INICIO MAIOR MENOR MONITOR MULT SOMA TERMINO THEN VIRGULA ZERO numero variavel\n    regra : INICIO varlist MONITOR monitorar EXECUTE cmds TERMINO\n    \n    cmds : cmd\n         | cmd cmds\n    \n    cmd : id IGUAL numero\n        | id IGUAL id\n        | funcao\n        | IF condicao THEN cmds FIM\n        | IF condicao THEN cmds ELSE cmds FIM\n        | ENQUANTO condicao FACA cmds FIM\n        | EVAL ABRE id VIRGULA id VIRGULA cmds FECHA\n        | EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA\n    \n    funcao : SOMA ABRE id VIRGULA id VIRGULA id FECHA\n           | SOMA ABRE id VIRGULA numero VIRGULA id FECHA\n           | SOMA ABRE numero VIRGULA id VIRGULA id FECHA\n           | SOMA ABRE numero VIRGULA numero VIRGULA id FECHA\n           | MULT ABRE numero VIRGULA numero VIRGULA id FECHA\n           | MULT ABRE id VIRGULA id VIRGULA id FECHA\n           | MULT ABRE id VIRGULA numero VIRGULA id FECHA\n           | MULT ABRE numero VIRGULA id VIRGULA id FECHA\n           | ZERO ABRE id FECHA\n    \n    condicao : numero MAIOR id\n             | numero MENOR id\n             | numero IGUAL IGUAL id\n             | id IGUAL IGUAL id\n             | id IGUAL IGUAL numero\n             | id MAIOR id\n             | id MENOR id\n             | id MAIOR numero\n             | id MENOR numero\n             | id\n    \n    monitorar : id\n              | id VIRGULA monitorar\n    \n    varlist : id\n            | id VIRGULA varlist\n    \n    id : variavel\n    '
     
-_lr_action_items = {'INICIO':([0,],[2,]),'$end':([1,25,],[0,-1,]),'variavel':([2,5,6,7,11,12,14,16,17,18,19,27,31,33,34,35,36,37,38,40,41,42,45,46,47,53,54,57,58,64,66,67,68,73,80,81,82,83,84,85,86,89,90,],[5,-32,5,5,5,5,5,-6,5,5,5,5,-8,5,5,5,5,-5,-4,5,5,5,5,5,5,5,-7,5,5,5,5,5,-17,-9,-16,5,5,-12,-13,-14,-15,-10,-11,]),'MONITOR':([3,4,5,10,],[6,-30,-32,-31,]),'VIRGULA':([4,5,9,48,49,50,51,69,74,75,],[7,-32,12,64,65,66,67,80,81,82,]),'EXECUTE':([5,8,9,24,],[-32,11,-28,-29,]),'IGUAL':([5,15,29,30,43,44,],[-32,27,43,44,57,58,]),'MAIOR':([5,29,30,],[-32,41,45,]),'MENOR':([5,29,30,],[-32,42,46,]),'THEN':([5,28,30,55,56,59,60,61,62,70,71,72,],[-32,40,-27,-18,-19,-23,-25,-24,-26,-20,-21,-22,]),'FACA':([5,30,32,55,56,59,60,61,62,70,71,72,],[-32,-27,47,-18,-19,-23,-25,-24,-26,-20,-21,-22,]),'IF':([5,11,14,16,18,31,37,38,40,47,54,68,73,80,81,82,83,84,85,86,89,90,],[-32,17,17,-6,17,-8,-5,-4,17,17,-7,-17,-9,-16,17,17,-12,-13,-14,-15,-10,-11,]),'ELSE':([5,11,14,16,18,31,37,38,40,47,54,68,73,80,81,82,83,84,85,86,89,90,],[-32,18,18,-6,18,-8,-5,-4,18,18,-7,-17,-9,-16,18,18,-12,-13,-14,-15,-10,-11,]),'ENQUANTO':([5,11,14,16,18,31,37,38,40,47,54,68,73,80,81,82,83,84,85,86,89,90,],[-32,19,19,-6,19,-8,-5,-4,19,19,-7,-17,-9,-16,19,19,-12,-13,-14,-15,-10,-11,]),'EVAL':([5,11,14,16,18,31,37,38,40,47,54,68,73,80,81,82,83,84,85,86,89,90,],[-32,20,20,-6,20,-8,-5,-4,20,20,-7,-17,-9,-16,20,20,-12,-13,-14,-15,-10,-11,]),'SOMA':([5,11,14,16,18,31,37,38,40,47,54,68,73,80,81,82,83,84,85,86,89,90,],[-32,21,21,-6,21,-8,-5,-4,21,21,-7,-17,-9,-16,21,21,-12,-13,-14,-15,-10,-11,]),'MULT':([5,11,14,16,18,27,31,37,38,40,47,54,68,73,80,81,82,83,84,85,86,89,90,],[-32,22,22,-6,22,39,-8,-5,-4,22,22,-7,-17,-9,-16,22,22,-12,-13,-14,-15,-10,-11,]),'ZERO':([5,11,14,16,18,31,37,38,40,47,54,68,73,80,81,82,83,84,85,86,89,90,],[-32,23,23,-6,23,-8,-5,-4,23,23,-7,-17,-9,-16,23,23,-12,-13,-14,-15,-10,-11,]),'TERMINO':([5,13,14,16,26,31,37,38,54,68,73,80,83,84,85,86,89,90,],[-32,25,-2,-6,-3,-8,-5,-4,-7,-17,-9,-16,-12,-13,-14,-15,-10,-11,]),'FIM':([5,14,16,26,31,37,38,54,63,68,73,80,83,84,85,86,89,90,],[-32,-2,-6,-3,-8,-5,-4,-7,73,-17,-9,-16,-12,-13,-14,-15,-10,-11,]),'FECHA':([5,14,16,26,31,37,38,52,54,68,73,76,77,78,79,80,83,84,85,86,87,88,89,90,],[-32,-2,-6,-3,-8,-5,-4,68,-7,-17,-9,83,84,85,86,-16,-12,-13,-14,-15,89,90,-10,-11,]),'numero':([17,19,27,33,45,46,58,65,66,67,],[29,29,38,49,60,62,72,75,77,79,]),'ABRE':([20,21,22,23,39,],[33,34,35,36,53,]),}
+_lr_action_items = {'INICIO':([0,],[2,]),'$end':([1,24,],[0,-1,]),'variavel':([2,5,6,7,11,12,14,16,17,18,26,31,32,33,34,35,36,37,38,39,42,43,44,55,56,62,64,65,66,67,68,69,70,74,86,87,88,89,90,91,92,93,94,95,96,107,108,109,110,111,112,113,114,115,116,],[5,-35,5,5,5,5,5,-6,5,5,5,5,5,5,5,-5,-4,5,5,5,5,5,5,5,5,5,5,5,5,5,-20,-7,5,-9,5,5,5,5,5,5,5,5,5,5,-8,-10,-11,-12,-13,-15,-14,-16,-19,-17,-18,]),'MONITOR':([3,4,5,10,],[6,-33,-35,-34,]),'VIRGULA':([4,5,9,45,46,47,48,49,50,75,76,77,78,79,80,81,82,83,84,],[7,-35,12,62,63,64,65,66,67,86,87,88,89,90,91,92,93,94,95,]),'EXECUTE':([5,8,9,23,],[-35,11,-31,-32,]),'IGUAL':([5,15,28,29,40,41,],[-35,26,40,41,55,56,]),'MAIOR':([5,28,29,],[-35,38,42,]),'MENOR':([5,28,29,],[-35,39,43,]),'THEN':([5,27,29,53,54,57,58,59,60,71,72,73,],[-35,37,-30,-21,-22,-26,-28,-27,-29,-23,-24,-25,]),'FACA':([5,29,30,53,54,57,58,59,60,71,72,73,],[-35,-30,44,-21,-22,-26,-28,-27,-29,-23,-24,-25,]),'IF':([5,11,14,16,35,36,37,44,68,69,70,74,86,87,96,107,108,109,110,111,112,113,114,115,116,],[-35,17,17,-6,-5,-4,17,17,-20,-7,17,-9,17,17,-8,-10,-11,-12,-13,-15,-14,-16,-19,-17,-18,]),'ENQUANTO':([5,11,14,16,35,36,37,44,68,69,70,74,86,87,96,107,108,109,110,111,112,113,114,115,116,],[-35,18,18,-6,-5,-4,18,18,-20,-7,18,-9,18,18,-8,-10,-11,-12,-13,-15,-14,-16,-19,-17,-18,]),'EVAL':([5,11,14,16,35,36,37,44,68,69,70,74,86,87,96,107,108,109,110,111,112,113,114,115,116,],[-35,19,19,-6,-5,-4,19,19,-20,-7,19,-9,19,19,-8,-10,-11,-12,-13,-15,-14,-16,-19,-17,-18,]),'SOMA':([5,11,14,16,35,36,37,44,68,69,70,74,86,87,96,107,108,109,110,111,112,113,114,115,116,],[-35,20,20,-6,-5,-4,20,20,-20,-7,20,-9,20,20,-8,-10,-11,-12,-13,-15,-14,-16,-19,-17,-18,]),'MULT':([5,11,14,16,35,36,37,44,68,69,70,74,86,87,96,107,108,109,110,111,112,113,114,115,116,],[-35,21,21,-6,-5,-4,21,21,-20,-7,21,-9,21,21,-8,-10,-11,-12,-13,-15,-14,-16,-19,-17,-18,]),'ZERO':([5,11,14,16,35,36,37,44,68,69,70,74,86,87,96,107,108,109,110,111,112,113,114,115,116,],[-35,22,22,-6,-5,-4,22,22,-20,-7,22,-9,22,22,-8,-10,-11,-12,-13,-15,-14,-16,-19,-17,-18,]),'TERMINO':([5,13,14,16,25,35,36,68,69,74,96,107,108,109,110,111,112,113,114,115,116,],[-35,24,-2,-6,-3,-5,-4,-20,-7,-9,-8,-10,-11,-12,-13,-15,-14,-16,-19,-17,-18,]),'FIM':([5,14,16,25,35,36,52,61,68,69,74,85,96,107,108,109,110,111,112,113,114,115,116,],[-35,-2,-6,-3,-5,-4,69,74,-20,-7,-9,96,-8,-10,-11,-12,-13,-15,-14,-16,-19,-17,-18,]),'ELSE':([5,14,16,25,35,36,52,68,69,74,96,107,108,109,110,111,112,113,114,115,116,],[-35,-2,-6,-3,-5,-4,70,-20,-7,-9,-8,-10,-11,-12,-13,-15,-14,-16,-19,-17,-18,]),'FECHA':([5,14,16,25,35,36,51,68,69,74,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,],[-35,-2,-6,-3,-5,-4,68,-20,-7,-9,-8,107,108,109,110,111,112,113,114,115,116,-10,-11,-12,-13,-15,-14,-16,-19,-17,-18,]),'numero':([17,18,26,31,32,33,42,43,56,63,64,65,66,67,],[28,28,36,46,48,49,58,60,73,76,78,79,81,84,]),'ABRE':([19,20,21,22,],[31,32,33,34,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'regra':([0,],[1,]),'varlist':([2,7,],[3,10,]),'id':([2,6,7,11,12,14,17,18,19,27,33,34,35,36,40,41,42,45,46,47,53,57,58,64,66,67,81,82,],[4,9,4,15,9,15,30,15,30,37,48,50,51,52,15,55,56,59,61,15,69,70,71,74,76,78,15,15,]),'monitorar':([6,12,],[8,24,]),'cmds':([11,14,47,81,82,],[13,26,63,87,88,]),'cmd':([11,14,18,40,47,81,82,],[14,14,31,54,14,14,14,]),'funcao':([11,14,18,40,47,81,82,],[16,16,16,16,16,16,16,]),'condicao':([17,19,],[28,32,]),}
+_lr_goto_items = {'regra':([0,],[1,]),'varlist':([2,7,],[3,10,]),'id':([2,6,7,11,12,14,17,18,26,31,32,33,34,37,38,39,42,43,44,55,56,62,64,65,66,67,70,86,87,88,89,90,91,92,93,94,95,],[4,9,4,15,9,15,29,29,35,45,47,50,51,15,53,54,57,59,15,71,72,75,77,80,82,83,15,15,15,99,100,101,102,103,104,105,106,]),'monitorar':([6,12,],[8,23,]),'cmds':([11,14,37,44,70,86,87,],[13,25,52,61,85,97,98,]),'cmd':([11,14,37,44,70,86,87,],[14,14,14,14,14,14,14,]),'funcao':([11,14,37,44,70,86,87,],[16,16,16,16,16,16,16,]),'condicao':([17,18,],[27,30,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,36 +27,39 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> regra","S'",1,None,None,None),
-  ('regra -> INICIO varlist MONITOR monitorar EXECUTE cmds TERMINO','regra',7,'p_regra_INICIO','analisador.py',66),
-  ('cmds -> cmd','cmds',1,'p_regra_cmds','analisador.py',73),
-  ('cmds -> cmd cmds','cmds',2,'p_regra_cmds','analisador.py',74),
-  ('cmd -> id IGUAL numero','cmd',3,'p_regra_cmd','analisador.py',83),
-  ('cmd -> id IGUAL id','cmd',3,'p_regra_cmd','analisador.py',84),
-  ('cmd -> funcao','cmd',1,'p_regra_cmd','analisador.py',85),
-  ('cmd -> IF condicao THEN cmd','cmd',4,'p_regra_cmd','analisador.py',86),
-  ('cmd -> ELSE cmd','cmd',2,'p_regra_cmd','analisador.py',87),
-  ('cmd -> ENQUANTO condicao FACA cmds FIM','cmd',5,'p_regra_cmd','analisador.py',88),
-  ('cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA','cmd',8,'p_regra_cmd','analisador.py',89),
-  ('cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA','cmd',8,'p_regra_cmd','analisador.py',90),
-  ('funcao -> SOMA ABRE id VIRGULA id FECHA','funcao',6,'p_regra_funcao','analisador.py',144),
-  ('funcao -> SOMA ABRE id VIRGULA numero FECHA','funcao',6,'p_regra_funcao','analisador.py',145),
-  ('funcao -> MULT ABRE id VIRGULA id FECHA','funcao',6,'p_regra_funcao','analisador.py',146),
-  ('funcao -> MULT ABRE id VIRGULA numero FECHA','funcao',6,'p_regra_funcao','analisador.py',147),
-  ('funcao -> id IGUAL MULT ABRE id VIRGULA','funcao',6,'p_regra_funcao','analisador.py',148),
-  ('funcao -> ZERO ABRE id FECHA','funcao',4,'p_regra_funcao','analisador.py',149),
-  ('condicao -> numero MAIOR id','condicao',3,'p_regra_condicao','analisador.py',209),
-  ('condicao -> numero MENOR id','condicao',3,'p_regra_condicao','analisador.py',210),
-  ('condicao -> numero IGUAL IGUAL id','condicao',4,'p_regra_condicao','analisador.py',211),
-  ('condicao -> id IGUAL IGUAL id','condicao',4,'p_regra_condicao','analisador.py',212),
-  ('condicao -> id IGUAL IGUAL numero','condicao',4,'p_regra_condicao','analisador.py',213),
-  ('condicao -> id MAIOR id','condicao',3,'p_regra_condicao','analisador.py',214),
-  ('condicao -> id MENOR id','condicao',3,'p_regra_condicao','analisador.py',215),
-  ('condicao -> id MAIOR numero','condicao',3,'p_regra_condicao','analisador.py',216),
-  ('condicao -> id MENOR numero','condicao',3,'p_regra_condicao','analisador.py',217),
-  ('condicao -> id','condicao',1,'p_regra_condicao','analisador.py',218),
-  ('monitorar -> id','monitorar',1,'p_regra_monitorar','analisador.py',245),
-  ('monitorar -> id VIRGULA monitorar','monitorar',3,'p_regra_monitorar','analisador.py',246),
-  ('varlist -> id','varlist',1,'p_regra_varlist','analisador.py',257),
-  ('varlist -> id VIRGULA varlist','varlist',3,'p_regra_varlist','analisador.py',258),
-  ('id -> variavel','id',1,'p_regra_id','analisador.py',269),
+  ('regra -> INICIO varlist MONITOR monitorar EXECUTE cmds TERMINO','regra',7,'p_regra_INICIO','analisador.py',87),
+  ('cmds -> cmd','cmds',1,'p_regra_cmds','analisador.py',94),
+  ('cmds -> cmd cmds','cmds',2,'p_regra_cmds','analisador.py',95),
+  ('cmd -> id IGUAL numero','cmd',3,'p_regra_cmd','analisador.py',104),
+  ('cmd -> id IGUAL id','cmd',3,'p_regra_cmd','analisador.py',105),
+  ('cmd -> funcao','cmd',1,'p_regra_cmd','analisador.py',106),
+  ('cmd -> IF condicao THEN cmds FIM','cmd',5,'p_regra_cmd','analisador.py',107),
+  ('cmd -> IF condicao THEN cmds ELSE cmds FIM','cmd',7,'p_regra_cmd','analisador.py',108),
+  ('cmd -> ENQUANTO condicao FACA cmds FIM','cmd',5,'p_regra_cmd','analisador.py',109),
+  ('cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA','cmd',8,'p_regra_cmd','analisador.py',110),
+  ('cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA','cmd',8,'p_regra_cmd','analisador.py',111),
+  ('funcao -> SOMA ABRE id VIRGULA id VIRGULA id FECHA','funcao',8,'p_regra_funcao','analisador.py',167),
+  ('funcao -> SOMA ABRE id VIRGULA numero VIRGULA id FECHA','funcao',8,'p_regra_funcao','analisador.py',168),
+  ('funcao -> SOMA ABRE numero VIRGULA id VIRGULA id FECHA','funcao',8,'p_regra_funcao','analisador.py',169),
+  ('funcao -> SOMA ABRE numero VIRGULA numero VIRGULA id FECHA','funcao',8,'p_regra_funcao','analisador.py',170),
+  ('funcao -> MULT ABRE numero VIRGULA numero VIRGULA id FECHA','funcao',8,'p_regra_funcao','analisador.py',171),
+  ('funcao -> MULT ABRE id VIRGULA id VIRGULA id FECHA','funcao',8,'p_regra_funcao','analisador.py',172),
+  ('funcao -> MULT ABRE id VIRGULA numero VIRGULA id FECHA','funcao',8,'p_regra_funcao','analisador.py',173),
+  ('funcao -> MULT ABRE numero VIRGULA id VIRGULA id FECHA','funcao',8,'p_regra_funcao','analisador.py',174),
+  ('funcao -> ZERO ABRE id FECHA','funcao',4,'p_regra_funcao','analisador.py',175),
+  ('condicao -> numero MAIOR id','condicao',3,'p_regra_condicao','analisador.py',224),
+  ('condicao -> numero MENOR id','condicao',3,'p_regra_condicao','analisador.py',225),
+  ('condicao -> numero IGUAL IGUAL id','condicao',4,'p_regra_condicao','analisador.py',226),
+  ('condicao -> id IGUAL IGUAL id','condicao',4,'p_regra_condicao','analisador.py',227),
+  ('condicao -> id IGUAL IGUAL numero','condicao',4,'p_regra_condicao','analisador.py',228),
+  ('condicao -> id MAIOR id','condicao',3,'p_regra_condicao','analisador.py',229),
+  ('condicao -> id MENOR id','condicao',3,'p_regra_condicao','analisador.py',230),
+  ('condicao -> id MAIOR numero','condicao',3,'p_regra_condicao','analisador.py',231),
+  ('condicao -> id MENOR numero','condicao',3,'p_regra_condicao','analisador.py',232),
+  ('condicao -> id','condicao',1,'p_regra_condicao','analisador.py',233),
+  ('monitorar -> id','monitorar',1,'p_regra_monitorar','analisador.py',260),
+  ('monitorar -> id VIRGULA monitorar','monitorar',3,'p_regra_monitorar','analisador.py',261),
+  ('varlist -> id','varlist',1,'p_regra_varlist','analisador.py',272),
+  ('varlist -> id VIRGULA varlist','varlist',3,'p_regra_varlist','analisador.py',273),
+  ('id -> variavel','id',1,'p_regra_id','analisador.py',284),
 ]
