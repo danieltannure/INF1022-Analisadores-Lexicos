@@ -80,7 +80,8 @@ lexer = lex.lex(debug=True)
 inicializados = []
 # Tokens a serem monitorados
 monitorar = []
-
+# Checa uso do else
+if_usado =  False
 
 def p_regra_INICIO(regras):
     '''
@@ -104,8 +105,8 @@ def p_regra_cmd(regras):
     cmd : id IGUAL numero
         | id IGUAL id
         | funcao
-        | IF condicao THEN cmds FIM
-        | IF condicao THEN cmds ELSE cmds FIM
+        | IF condicao THEN cmds
+        | ELSE cmds
         | ENQUANTO condicao FACA cmds FIM
         | EVAL ABRE id VIRGULA id VIRGULA cmds FECHA
         | EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA
@@ -123,10 +124,11 @@ def p_regra_cmd(regras):
     elif len(regras ) == 2:
         regras[0] = regras[1]
     elif regras[1] == 'IF':
-        if len(regras) == 6:
-            regras[0] = f"if ({regras[2]}) {{\n\t\t{regras[4]}\n\t}}"
-        elif len(regras) == 8:
-            regras[0] = f"if ({regras[2]}) {{\n\t\t{regras[4]}\n\t}}\n\telse{{\n\t{regras[6]}\n\t}}"     
+        regras[0] = f"if ({regras[2]}) {{\n\t\t{regras[4]}\n\t}}"
+        if_usado = True
+    elif regras[1] == 'ELSE' and if_usado == True:
+        regras[0] = f"else {{\n\t\t{regras[2]}\n\t}}"
+        if_usado = False
     else:
         if regras[1] in monitorar:
             if regras[3] in monitorar:
@@ -161,17 +163,12 @@ def p_regra_cmd(regras):
                 else:
                     chamar_p_error(regras[3])
 
-#MULT E SOMA arg1 = numero 1 a ser somado, arg2= numero 2 a ser somado, arg3= variável onde será guardada
 def p_regra_funcao(regras):
     '''
-    funcao : SOMA ABRE id VIRGULA id VIRGULA id FECHA
-           | SOMA ABRE id VIRGULA numero VIRGULA id FECHA
-           | SOMA ABRE numero VIRGULA id VIRGULA id FECHA
-           | SOMA ABRE numero VIRGULA numero VIRGULA id FECHA
-           | MULT ABRE numero VIRGULA numero VIRGULA id FECHA
-           | MULT ABRE id VIRGULA id VIRGULA id FECHA
-           | MULT ABRE id VIRGULA numero VIRGULA id FECHA
-           | MULT ABRE numero VIRGULA id VIRGULA id FECHA
+    funcao : SOMA ABRE id VIRGULA id VIRGULAFECHA
+           | SOMA ABRE id VIRGULA numero FECHA
+           | MULT ABRE id VIRGULA id FECHA
+           | MULT ABRE id VIRGULA numero FECHA
            | ZERO ABRE id FECHA
     '''
 
@@ -186,33 +183,44 @@ def p_regra_funcao(regras):
                 regras[0] = f"int {regras[3]} = 0;\n\tprintf(\"%d\", {regras[3]});"
             else:
                 regras[0] = f"int {regras[3]} = 0;"
-
-    elif regras[1] == 'SOMA':
-        if regras[7] in inicializados and (type(regras[3]) is int or regras[3] in inicializados) and ((regras[5] in inicializados) or (type(regras[5]) is int)):
-            if regras[7] in monitorar:
-                regras[0] = f"{regras[7]} = {regras[3]} + {regras[5]};\n\tprintf(\"%d\", {regras[7]});"
+    elif len(regras) == 4:
+        if regras[1] in inicializados:
+            if regras[1] in monitorar:  
+                regras[0]=f"{regras[1]} = {regras[3]};\n\tprintf(\"%d\", {regras[1]});"
             else:
-                regras[0] = f"{regras[7]} = {regras[3]} + {regras[5]};"
-        elif (type(regras[3]) is int or regras[3] in inicializados) and ((regras[5] in inicializados) or (type(regras[5]) is int)):
-            if regras[7] in monitorar:
-                regras[0] = f"int {regras[7]} = {regras[3]} + {regras[5]};\n\tprintf(\"%d\", {regras[7]});"
-            else:
-                regras[0] = f" int{regras[7]} = {regras[3]} + {regras[5]};"
-            inicializados.append(regras[7])
+                regras[0]=f"{regras[1]} = {regras[3]};"
         else:
+            if regras[1] in monitorar:
+                regras[0]=f"int {regras[1]} = {regras[3]};\n\tprintf(\"%d\", {regras[1]});"
+            else:    
+                regras[0]=f"int {regras[1]} = {regras[3]};"
+    elif regras[1] == 'SOMA':
+        if regras[3] in inicializados and ((regras[5] in inicializados) or (type(regras[5]) is int)):
+            if regras[3] in monitorar:
+                regras[0] = f"{regras[3]} = {regras[3]} + {regras[5]};\n\tprintf(\"%d\", {regras[3]});"
+            else:
+                regras[0] = f"{regras[3]} = {regras[3]} + {regras[5]};"
+        elif ((regras[5] in inicializados) or (type(regras[5]) is int)):
+            if regras[3] in monitorar:
+                regras[0] = f"int {regras[3]} = {regras[3]} + {regras[5]};\n\tprintf(\"%d\", {regras[3]});"
+            else:
+                regras[0] = f" int{regras[3]} = {regras[3]} + {regras[5]};"
+            inicializados.append(regras[3])
+        else:
+            print("oi")
             chamar_p_error(regras[3])
     elif regras[1] == 'MULT':
-        if regras[7] in inicializados and (type(regras[3]) is int or regras[3] in inicializados) and ((regras[5] in inicializados) or (type(regras[5]) is int)):
-            if regras[7] in monitorar:
-                regras[0] = f"{regras[7]} = {regras[3]} * {regras[5]};\n\tprintf(\"%d\", {regras[7]});"
+        if regras[3] in inicializados and ((regras[5] in inicializados) or (type(regras[5]) is int)):
+            if regras[3] in monitorar:
+                regras[0] = f"{regras[3]} = {regras[3]} * {regras[5]};\n\tprintf(\"%d\", {regras[3]});"
             else:
-                regras[0] = f"{regras[7]} = {regras[3]} * {regras[5]};"
-        elif (type(regras[3]) is int or regras[3] in inicializados) and ((regras[5] in inicializados) or (type(regras[5]) is int)):
-            if regras[7] in monitorar:
-                regras[0] = f"int {regras[7]} = {regras[3]} * {regras[5]};\n\tprintf(\"%d\", {regras[7]});"
+                regras[0] = f"{regras[3]} = {regras[3]} * {regras[5]};"
+        elif ((regras[5] in inicializados) or (type(regras[5]) is int)):
+            if regras[3] in monitorar:
+                regras[0] = f"int {regras[3]} = {regras[3]} * {regras[5]};\n\tprintf(\"%d\", {regras[3]});"
             else:
-                regras[0] = f" int {regras[7]} = {regras[3]} * {regras[5]};"
-            inicializados.append(regras[7])
+                regras[0] = f" int {regras[3]} = {regras[3]} * {regras[5]};"
+            inicializados.append(regras[3])
 
         else:
             chamar_p_error(regras[3])
