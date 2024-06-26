@@ -101,13 +101,13 @@ def p_regra_cmds(regras):
 
 def p_regra_cmd(regras):
     '''
-    cmd : id IGUAL numero
-        | id IGUAL id
+    cmd : variavel IGUAL numero
+        | variavel IGUAL variavel
         | funcao
         | IF condicao THEN cmds FIM
         | IF condicao THEN cmds ELSE cmds FIM
         | ENQUANTO condicao FACA cmds FIM
-        | EVAL ABRE id VIRGULA id VIRGULA cmds FECHA
+        | EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA
         | EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA
     '''
     if len(regras) == 9:
@@ -164,15 +164,15 @@ def p_regra_cmd(regras):
 #MULT E SOMA arg1 = numero 1 a ser somado, arg2= numero 2 a ser somado, arg3= variável onde será guardada
 def p_regra_funcao(regras):
     '''
-    funcao : SOMA ABRE id VIRGULA id VIRGULA id FECHA
-           | SOMA ABRE id VIRGULA numero VIRGULA id FECHA
-           | SOMA ABRE numero VIRGULA id VIRGULA id FECHA
-           | SOMA ABRE numero VIRGULA numero VIRGULA id FECHA
-           | MULT ABRE numero VIRGULA numero VIRGULA id FECHA
-           | MULT ABRE id VIRGULA id VIRGULA id FECHA
-           | MULT ABRE id VIRGULA numero VIRGULA id FECHA
-           | MULT ABRE numero VIRGULA id VIRGULA id FECHA
-           | ZERO ABRE id FECHA
+    funcao : SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+           | SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+           | SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+           | SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA
+           | MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA
+           | MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+           | MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+           | MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+           | ZERO ABRE variavel FECHA
     '''
 
     if len(regras) == 5:
@@ -221,16 +221,16 @@ def p_regra_funcao(regras):
 #condição não aceita inicialização de variável na condição
 def p_regra_condicao(regras):
     '''
-    condicao : numero MAIOR id
-             | numero MENOR id
-             | numero IGUAL IGUAL id
-             | id IGUAL IGUAL id
-             | id IGUAL IGUAL numero
-             | id MAIOR id
-             | id MENOR id
-             | id MAIOR numero
-             | id MENOR numero
-             | id
+    condicao : numero MAIOR variavel
+             | numero MENOR variavel
+             | numero IGUAL IGUAL variavel
+             | variavel IGUAL IGUAL variavel
+             | variavel IGUAL IGUAL numero
+             | variavel MAIOR variavel
+             | variavel MENOR variavel
+             | variavel MAIOR numero
+             | variavel MENOR numero
+             | variavel
     '''
     if len(regras) == 2:
         if regras[1] in inicializados:
@@ -257,8 +257,8 @@ def p_regra_condicao(regras):
 
 def p_regra_monitorar(regras):
     '''
-    monitorar : id
-              | id VIRGULA monitorar
+    monitorar : variavel
+              | variavel VIRGULA monitorar
     '''
     if len(regras) == 2:
         monitorar.append(regras[1])
@@ -269,8 +269,8 @@ def p_regra_monitorar(regras):
 
 def p_regra_varlist(regras):
     '''
-    varlist : id
-            | id VIRGULA varlist
+    varlist : variavel
+            | variavel VIRGULA varlist
     '''
     if len(regras) == 2:
         inicializados.append(regras[1])
@@ -279,11 +279,6 @@ def p_regra_varlist(regras):
         inicializados.append(regras[1])
         regras[0] = f"int {regras[1]};\n\t{regras[3]}"
 
-def p_regra_id(regras):
-    '''
-    id : variavel
-    '''
-    regras[0] = regras[1]
 
 # Função para chamar p_error manualmente
 def chamar_p_error(token_value):

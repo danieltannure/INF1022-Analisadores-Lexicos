@@ -6,38 +6,37 @@ Rule 0     S' -> regra
 Rule 1     regra -> INICIO varlist MONITOR monitorar EXECUTE cmds TERMINO
 Rule 2     cmds -> cmd
 Rule 3     cmds -> cmd cmds
-Rule 4     cmd -> id IGUAL numero
-Rule 5     cmd -> id IGUAL id
+Rule 4     cmd -> variavel IGUAL numero
+Rule 5     cmd -> variavel IGUAL variavel
 Rule 6     cmd -> funcao
 Rule 7     cmd -> IF condicao THEN cmds FIM
 Rule 8     cmd -> IF condicao THEN cmds ELSE cmds FIM
 Rule 9     cmd -> ENQUANTO condicao FACA cmds FIM
-Rule 10    cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA
+Rule 10    cmd -> EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA
 Rule 11    cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA
-Rule 12    funcao -> SOMA ABRE id VIRGULA id VIRGULA id FECHA
-Rule 13    funcao -> SOMA ABRE id VIRGULA numero VIRGULA id FECHA
-Rule 14    funcao -> SOMA ABRE numero VIRGULA id VIRGULA id FECHA
-Rule 15    funcao -> SOMA ABRE numero VIRGULA numero VIRGULA id FECHA
-Rule 16    funcao -> MULT ABRE numero VIRGULA numero VIRGULA id FECHA
-Rule 17    funcao -> MULT ABRE id VIRGULA id VIRGULA id FECHA
-Rule 18    funcao -> MULT ABRE id VIRGULA numero VIRGULA id FECHA
-Rule 19    funcao -> MULT ABRE numero VIRGULA id VIRGULA id FECHA
-Rule 20    funcao -> ZERO ABRE id FECHA
-Rule 21    condicao -> numero MAIOR id
-Rule 22    condicao -> numero MENOR id
-Rule 23    condicao -> numero IGUAL IGUAL id
-Rule 24    condicao -> id IGUAL IGUAL id
-Rule 25    condicao -> id IGUAL IGUAL numero
-Rule 26    condicao -> id MAIOR id
-Rule 27    condicao -> id MENOR id
-Rule 28    condicao -> id MAIOR numero
-Rule 29    condicao -> id MENOR numero
-Rule 30    condicao -> id
-Rule 31    monitorar -> id
-Rule 32    monitorar -> id VIRGULA monitorar
-Rule 33    varlist -> id
-Rule 34    varlist -> id VIRGULA varlist
-Rule 35    id -> variavel
+Rule 12    funcao -> SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+Rule 13    funcao -> SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+Rule 14    funcao -> SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+Rule 15    funcao -> SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA
+Rule 16    funcao -> MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA
+Rule 17    funcao -> MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+Rule 18    funcao -> MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+Rule 19    funcao -> MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+Rule 20    funcao -> ZERO ABRE variavel FECHA
+Rule 21    condicao -> numero MAIOR variavel
+Rule 22    condicao -> numero MENOR variavel
+Rule 23    condicao -> numero IGUAL IGUAL variavel
+Rule 24    condicao -> variavel IGUAL IGUAL variavel
+Rule 25    condicao -> variavel IGUAL IGUAL numero
+Rule 26    condicao -> variavel MAIOR variavel
+Rule 27    condicao -> variavel MENOR variavel
+Rule 28    condicao -> variavel MAIOR numero
+Rule 29    condicao -> variavel MENOR numero
+Rule 30    condicao -> variavel
+Rule 31    monitorar -> variavel
+Rule 32    monitorar -> variavel VIRGULA monitorar
+Rule 33    varlist -> variavel
+Rule 34    varlist -> variavel VIRGULA varlist
 
 Terminals, with rules where they appear
 
@@ -63,7 +62,7 @@ VIRGULA              : 10 10 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18 18 19 
 ZERO                 : 20
 error                : 
 numero               : 4 11 11 13 14 15 15 16 16 18 19 21 22 23 25 28 29
-variavel             : 35
+variavel             : 4 5 5 10 10 12 12 12 13 13 14 14 15 16 17 17 17 18 18 19 19 20 21 22 23 24 24 25 26 26 27 27 28 29 30 31 32 33 34
 
 Nonterminals, with rules where they appear
 
@@ -71,7 +70,6 @@ cmd                  : 2 3
 cmds                 : 1 3 7 8 8 9 10 11
 condicao             : 7 8 9
 funcao               : 6
-id                   : 4 5 5 10 10 12 12 12 13 13 14 14 15 16 17 17 17 18 18 19 19 20 21 22 23 24 24 25 26 26 27 27 28 29 30 31 32 33 34
 monitorar            : 1 32
 regra                : 0
 varlist              : 1 34
@@ -96,217 +94,180 @@ state 1
 state 2
 
     (1) regra -> INICIO . varlist MONITOR monitorar EXECUTE cmds TERMINO
-    (33) varlist -> . id
-    (34) varlist -> . id VIRGULA varlist
-    (35) id -> . variavel
+    (33) varlist -> . variavel
+    (34) varlist -> . variavel VIRGULA varlist
 
-    variavel        shift and go to state 5
+    variavel        shift and go to state 4
 
     varlist                        shift and go to state 3
-    id                             shift and go to state 4
 
 state 3
 
     (1) regra -> INICIO varlist . MONITOR monitorar EXECUTE cmds TERMINO
 
-    MONITOR         shift and go to state 6
+    MONITOR         shift and go to state 5
 
 
 state 4
 
-    (33) varlist -> id .
-    (34) varlist -> id . VIRGULA varlist
+    (33) varlist -> variavel .
+    (34) varlist -> variavel . VIRGULA varlist
 
-    MONITOR         reduce using rule 33 (varlist -> id .)
-    VIRGULA         shift and go to state 7
+    MONITOR         reduce using rule 33 (varlist -> variavel .)
+    VIRGULA         shift and go to state 6
 
 
 state 5
 
-    (35) id -> variavel .
+    (1) regra -> INICIO varlist MONITOR . monitorar EXECUTE cmds TERMINO
+    (31) monitorar -> . variavel
+    (32) monitorar -> . variavel VIRGULA monitorar
 
-    VIRGULA         reduce using rule 35 (id -> variavel .)
-    MONITOR         reduce using rule 35 (id -> variavel .)
-    EXECUTE         reduce using rule 35 (id -> variavel .)
-    IGUAL           reduce using rule 35 (id -> variavel .)
-    MAIOR           reduce using rule 35 (id -> variavel .)
-    MENOR           reduce using rule 35 (id -> variavel .)
-    THEN            reduce using rule 35 (id -> variavel .)
-    FACA            reduce using rule 35 (id -> variavel .)
-    IF              reduce using rule 35 (id -> variavel .)
-    ENQUANTO        reduce using rule 35 (id -> variavel .)
-    EVAL            reduce using rule 35 (id -> variavel .)
-    variavel        reduce using rule 35 (id -> variavel .)
-    SOMA            reduce using rule 35 (id -> variavel .)
-    MULT            reduce using rule 35 (id -> variavel .)
-    ZERO            reduce using rule 35 (id -> variavel .)
-    TERMINO         reduce using rule 35 (id -> variavel .)
-    FIM             reduce using rule 35 (id -> variavel .)
-    ELSE            reduce using rule 35 (id -> variavel .)
-    FECHA           reduce using rule 35 (id -> variavel .)
+    variavel        shift and go to state 8
 
+    monitorar                      shift and go to state 7
 
 state 6
 
-    (1) regra -> INICIO varlist MONITOR . monitorar EXECUTE cmds TERMINO
-    (31) monitorar -> . id
-    (32) monitorar -> . id VIRGULA monitorar
-    (35) id -> . variavel
+    (34) varlist -> variavel VIRGULA . varlist
+    (33) varlist -> . variavel
+    (34) varlist -> . variavel VIRGULA varlist
 
-    variavel        shift and go to state 5
+    variavel        shift and go to state 4
 
-    monitorar                      shift and go to state 8
-    id                             shift and go to state 9
+    varlist                        shift and go to state 9
 
 state 7
 
-    (34) varlist -> id VIRGULA . varlist
-    (33) varlist -> . id
-    (34) varlist -> . id VIRGULA varlist
-    (35) id -> . variavel
+    (1) regra -> INICIO varlist MONITOR monitorar . EXECUTE cmds TERMINO
 
-    variavel        shift and go to state 5
+    EXECUTE         shift and go to state 10
 
-    id                             shift and go to state 4
-    varlist                        shift and go to state 10
 
 state 8
 
-    (1) regra -> INICIO varlist MONITOR monitorar . EXECUTE cmds TERMINO
+    (31) monitorar -> variavel .
+    (32) monitorar -> variavel . VIRGULA monitorar
 
-    EXECUTE         shift and go to state 11
+    EXECUTE         reduce using rule 31 (monitorar -> variavel .)
+    VIRGULA         shift and go to state 11
 
 
 state 9
 
-    (31) monitorar -> id .
-    (32) monitorar -> id . VIRGULA monitorar
+    (34) varlist -> variavel VIRGULA varlist .
 
-    EXECUTE         reduce using rule 31 (monitorar -> id .)
-    VIRGULA         shift and go to state 12
+    MONITOR         reduce using rule 34 (varlist -> variavel VIRGULA varlist .)
 
 
 state 10
 
-    (34) varlist -> id VIRGULA varlist .
-
-    MONITOR         reduce using rule 34 (varlist -> id VIRGULA varlist .)
-
-
-state 11
-
     (1) regra -> INICIO varlist MONITOR monitorar EXECUTE . cmds TERMINO
     (2) cmds -> . cmd
     (3) cmds -> . cmd cmds
-    (4) cmd -> . id IGUAL numero
-    (5) cmd -> . id IGUAL id
+    (4) cmd -> . variavel IGUAL numero
+    (5) cmd -> . variavel IGUAL variavel
     (6) cmd -> . funcao
     (7) cmd -> . IF condicao THEN cmds FIM
     (8) cmd -> . IF condicao THEN cmds ELSE cmds FIM
     (9) cmd -> . ENQUANTO condicao FACA cmds FIM
-    (10) cmd -> . EVAL ABRE id VIRGULA id VIRGULA cmds FECHA
+    (10) cmd -> . EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA
     (11) cmd -> . EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA
-    (35) id -> . variavel
-    (12) funcao -> . SOMA ABRE id VIRGULA id VIRGULA id FECHA
-    (13) funcao -> . SOMA ABRE id VIRGULA numero VIRGULA id FECHA
-    (14) funcao -> . SOMA ABRE numero VIRGULA id VIRGULA id FECHA
-    (15) funcao -> . SOMA ABRE numero VIRGULA numero VIRGULA id FECHA
-    (16) funcao -> . MULT ABRE numero VIRGULA numero VIRGULA id FECHA
-    (17) funcao -> . MULT ABRE id VIRGULA id VIRGULA id FECHA
-    (18) funcao -> . MULT ABRE id VIRGULA numero VIRGULA id FECHA
-    (19) funcao -> . MULT ABRE numero VIRGULA id VIRGULA id FECHA
-    (20) funcao -> . ZERO ABRE id FECHA
+    (12) funcao -> . SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (13) funcao -> . SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (14) funcao -> . SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+    (15) funcao -> . SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA
+    (16) funcao -> . MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA
+    (17) funcao -> . MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (18) funcao -> . MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (19) funcao -> . MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+    (20) funcao -> . ZERO ABRE variavel FECHA
 
-    IF              shift and go to state 17
-    ENQUANTO        shift and go to state 18
-    EVAL            shift and go to state 19
-    variavel        shift and go to state 5
-    SOMA            shift and go to state 20
-    MULT            shift and go to state 21
-    ZERO            shift and go to state 22
+    variavel        shift and go to state 14
+    IF              shift and go to state 16
+    ENQUANTO        shift and go to state 17
+    EVAL            shift and go to state 18
+    SOMA            shift and go to state 19
+    MULT            shift and go to state 20
+    ZERO            shift and go to state 21
 
-    cmds                           shift and go to state 13
-    cmd                            shift and go to state 14
-    id                             shift and go to state 15
-    funcao                         shift and go to state 16
+    cmds                           shift and go to state 12
+    cmd                            shift and go to state 13
+    funcao                         shift and go to state 15
+
+state 11
+
+    (32) monitorar -> variavel VIRGULA . monitorar
+    (31) monitorar -> . variavel
+    (32) monitorar -> . variavel VIRGULA monitorar
+
+    variavel        shift and go to state 8
+
+    monitorar                      shift and go to state 22
 
 state 12
 
-    (32) monitorar -> id VIRGULA . monitorar
-    (31) monitorar -> . id
-    (32) monitorar -> . id VIRGULA monitorar
-    (35) id -> . variavel
-
-    variavel        shift and go to state 5
-
-    id                             shift and go to state 9
-    monitorar                      shift and go to state 23
-
-state 13
-
     (1) regra -> INICIO varlist MONITOR monitorar EXECUTE cmds . TERMINO
 
-    TERMINO         shift and go to state 24
+    TERMINO         shift and go to state 23
 
 
-state 14
+state 13
 
     (2) cmds -> cmd .
     (3) cmds -> cmd . cmds
     (2) cmds -> . cmd
     (3) cmds -> . cmd cmds
-    (4) cmd -> . id IGUAL numero
-    (5) cmd -> . id IGUAL id
+    (4) cmd -> . variavel IGUAL numero
+    (5) cmd -> . variavel IGUAL variavel
     (6) cmd -> . funcao
     (7) cmd -> . IF condicao THEN cmds FIM
     (8) cmd -> . IF condicao THEN cmds ELSE cmds FIM
     (9) cmd -> . ENQUANTO condicao FACA cmds FIM
-    (10) cmd -> . EVAL ABRE id VIRGULA id VIRGULA cmds FECHA
+    (10) cmd -> . EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA
     (11) cmd -> . EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA
-    (35) id -> . variavel
-    (12) funcao -> . SOMA ABRE id VIRGULA id VIRGULA id FECHA
-    (13) funcao -> . SOMA ABRE id VIRGULA numero VIRGULA id FECHA
-    (14) funcao -> . SOMA ABRE numero VIRGULA id VIRGULA id FECHA
-    (15) funcao -> . SOMA ABRE numero VIRGULA numero VIRGULA id FECHA
-    (16) funcao -> . MULT ABRE numero VIRGULA numero VIRGULA id FECHA
-    (17) funcao -> . MULT ABRE id VIRGULA id VIRGULA id FECHA
-    (18) funcao -> . MULT ABRE id VIRGULA numero VIRGULA id FECHA
-    (19) funcao -> . MULT ABRE numero VIRGULA id VIRGULA id FECHA
-    (20) funcao -> . ZERO ABRE id FECHA
+    (12) funcao -> . SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (13) funcao -> . SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (14) funcao -> . SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+    (15) funcao -> . SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA
+    (16) funcao -> . MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA
+    (17) funcao -> . MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (18) funcao -> . MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (19) funcao -> . MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+    (20) funcao -> . ZERO ABRE variavel FECHA
 
     TERMINO         reduce using rule 2 (cmds -> cmd .)
     FIM             reduce using rule 2 (cmds -> cmd .)
     ELSE            reduce using rule 2 (cmds -> cmd .)
     FECHA           reduce using rule 2 (cmds -> cmd .)
-    IF              shift and go to state 17
-    ENQUANTO        shift and go to state 18
-    EVAL            shift and go to state 19
-    variavel        shift and go to state 5
-    SOMA            shift and go to state 20
-    MULT            shift and go to state 21
-    ZERO            shift and go to state 22
+    variavel        shift and go to state 14
+    IF              shift and go to state 16
+    ENQUANTO        shift and go to state 17
+    EVAL            shift and go to state 18
+    SOMA            shift and go to state 19
+    MULT            shift and go to state 20
+    ZERO            shift and go to state 21
 
-    cmd                            shift and go to state 14
-    cmds                           shift and go to state 25
-    id                             shift and go to state 15
-    funcao                         shift and go to state 16
+    cmd                            shift and go to state 13
+    cmds                           shift and go to state 24
+    funcao                         shift and go to state 15
+
+state 14
+
+    (4) cmd -> variavel . IGUAL numero
+    (5) cmd -> variavel . IGUAL variavel
+
+    IGUAL           shift and go to state 25
+
 
 state 15
 
-    (4) cmd -> id . IGUAL numero
-    (5) cmd -> id . IGUAL id
-
-    IGUAL           shift and go to state 26
-
-
-state 16
-
     (6) cmd -> funcao .
 
+    variavel        reduce using rule 6 (cmd -> funcao .)
     IF              reduce using rule 6 (cmd -> funcao .)
     ENQUANTO        reduce using rule 6 (cmd -> funcao .)
     EVAL            reduce using rule 6 (cmd -> funcao .)
-    variavel        reduce using rule 6 (cmd -> funcao .)
     SOMA            reduce using rule 6 (cmd -> funcao .)
     MULT            reduce using rule 6 (cmd -> funcao .)
     ZERO            reduce using rule 6 (cmd -> funcao .)
@@ -316,99 +277,95 @@ state 16
     FECHA           reduce using rule 6 (cmd -> funcao .)
 
 
-state 17
+state 16
 
     (7) cmd -> IF . condicao THEN cmds FIM
     (8) cmd -> IF . condicao THEN cmds ELSE cmds FIM
-    (21) condicao -> . numero MAIOR id
-    (22) condicao -> . numero MENOR id
-    (23) condicao -> . numero IGUAL IGUAL id
-    (24) condicao -> . id IGUAL IGUAL id
-    (25) condicao -> . id IGUAL IGUAL numero
-    (26) condicao -> . id MAIOR id
-    (27) condicao -> . id MENOR id
-    (28) condicao -> . id MAIOR numero
-    (29) condicao -> . id MENOR numero
-    (30) condicao -> . id
-    (35) id -> . variavel
+    (21) condicao -> . numero MAIOR variavel
+    (22) condicao -> . numero MENOR variavel
+    (23) condicao -> . numero IGUAL IGUAL variavel
+    (24) condicao -> . variavel IGUAL IGUAL variavel
+    (25) condicao -> . variavel IGUAL IGUAL numero
+    (26) condicao -> . variavel MAIOR variavel
+    (27) condicao -> . variavel MENOR variavel
+    (28) condicao -> . variavel MAIOR numero
+    (29) condicao -> . variavel MENOR numero
+    (30) condicao -> . variavel
 
-    numero          shift and go to state 28
-    variavel        shift and go to state 5
+    numero          shift and go to state 27
+    variavel        shift and go to state 28
 
-    condicao                       shift and go to state 27
-    id                             shift and go to state 29
+    condicao                       shift and go to state 26
+
+state 17
+
+    (9) cmd -> ENQUANTO . condicao FACA cmds FIM
+    (21) condicao -> . numero MAIOR variavel
+    (22) condicao -> . numero MENOR variavel
+    (23) condicao -> . numero IGUAL IGUAL variavel
+    (24) condicao -> . variavel IGUAL IGUAL variavel
+    (25) condicao -> . variavel IGUAL IGUAL numero
+    (26) condicao -> . variavel MAIOR variavel
+    (27) condicao -> . variavel MENOR variavel
+    (28) condicao -> . variavel MAIOR numero
+    (29) condicao -> . variavel MENOR numero
+    (30) condicao -> . variavel
+
+    numero          shift and go to state 27
+    variavel        shift and go to state 28
+
+    condicao                       shift and go to state 29
 
 state 18
 
-    (9) cmd -> ENQUANTO . condicao FACA cmds FIM
-    (21) condicao -> . numero MAIOR id
-    (22) condicao -> . numero MENOR id
-    (23) condicao -> . numero IGUAL IGUAL id
-    (24) condicao -> . id IGUAL IGUAL id
-    (25) condicao -> . id IGUAL IGUAL numero
-    (26) condicao -> . id MAIOR id
-    (27) condicao -> . id MENOR id
-    (28) condicao -> . id MAIOR numero
-    (29) condicao -> . id MENOR numero
-    (30) condicao -> . id
-    (35) id -> . variavel
+    (10) cmd -> EVAL . ABRE variavel VIRGULA variavel VIRGULA cmds FECHA
+    (11) cmd -> EVAL . ABRE numero VIRGULA numero VIRGULA cmds FECHA
 
-    numero          shift and go to state 28
-    variavel        shift and go to state 5
+    ABRE            shift and go to state 30
 
-    condicao                       shift and go to state 30
-    id                             shift and go to state 29
 
 state 19
 
-    (10) cmd -> EVAL . ABRE id VIRGULA id VIRGULA cmds FECHA
-    (11) cmd -> EVAL . ABRE numero VIRGULA numero VIRGULA cmds FECHA
+    (12) funcao -> SOMA . ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (13) funcao -> SOMA . ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (14) funcao -> SOMA . ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+    (15) funcao -> SOMA . ABRE numero VIRGULA numero VIRGULA variavel FECHA
 
     ABRE            shift and go to state 31
 
 
 state 20
 
-    (12) funcao -> SOMA . ABRE id VIRGULA id VIRGULA id FECHA
-    (13) funcao -> SOMA . ABRE id VIRGULA numero VIRGULA id FECHA
-    (14) funcao -> SOMA . ABRE numero VIRGULA id VIRGULA id FECHA
-    (15) funcao -> SOMA . ABRE numero VIRGULA numero VIRGULA id FECHA
+    (16) funcao -> MULT . ABRE numero VIRGULA numero VIRGULA variavel FECHA
+    (17) funcao -> MULT . ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (18) funcao -> MULT . ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (19) funcao -> MULT . ABRE numero VIRGULA variavel VIRGULA variavel FECHA
 
     ABRE            shift and go to state 32
 
 
 state 21
 
-    (16) funcao -> MULT . ABRE numero VIRGULA numero VIRGULA id FECHA
-    (17) funcao -> MULT . ABRE id VIRGULA id VIRGULA id FECHA
-    (18) funcao -> MULT . ABRE id VIRGULA numero VIRGULA id FECHA
-    (19) funcao -> MULT . ABRE numero VIRGULA id VIRGULA id FECHA
+    (20) funcao -> ZERO . ABRE variavel FECHA
 
     ABRE            shift and go to state 33
 
 
 state 22
 
-    (20) funcao -> ZERO . ABRE id FECHA
+    (32) monitorar -> variavel VIRGULA monitorar .
 
-    ABRE            shift and go to state 34
+    EXECUTE         reduce using rule 32 (monitorar -> variavel VIRGULA monitorar .)
 
 
 state 23
-
-    (32) monitorar -> id VIRGULA monitorar .
-
-    EXECUTE         reduce using rule 32 (monitorar -> id VIRGULA monitorar .)
-
-
-state 24
 
     (1) regra -> INICIO varlist MONITOR monitorar EXECUTE cmds TERMINO .
 
     $end            reduce using rule 1 (regra -> INICIO varlist MONITOR monitorar EXECUTE cmds TERMINO .)
 
 
-state 25
+state 24
 
     (3) cmds -> cmd cmds .
 
@@ -418,492 +375,456 @@ state 25
     FECHA           reduce using rule 3 (cmds -> cmd cmds .)
 
 
+state 25
+
+    (4) cmd -> variavel IGUAL . numero
+    (5) cmd -> variavel IGUAL . variavel
+
+    numero          shift and go to state 35
+    variavel        shift and go to state 34
+
+
 state 26
-
-    (4) cmd -> id IGUAL . numero
-    (5) cmd -> id IGUAL . id
-    (35) id -> . variavel
-
-    numero          shift and go to state 36
-    variavel        shift and go to state 5
-
-    id                             shift and go to state 35
-
-state 27
 
     (7) cmd -> IF condicao . THEN cmds FIM
     (8) cmd -> IF condicao . THEN cmds ELSE cmds FIM
 
-    THEN            shift and go to state 37
+    THEN            shift and go to state 36
+
+
+state 27
+
+    (21) condicao -> numero . MAIOR variavel
+    (22) condicao -> numero . MENOR variavel
+    (23) condicao -> numero . IGUAL IGUAL variavel
+
+    MAIOR           shift and go to state 37
+    MENOR           shift and go to state 38
+    IGUAL           shift and go to state 39
 
 
 state 28
 
-    (21) condicao -> numero . MAIOR id
-    (22) condicao -> numero . MENOR id
-    (23) condicao -> numero . IGUAL IGUAL id
+    (24) condicao -> variavel . IGUAL IGUAL variavel
+    (25) condicao -> variavel . IGUAL IGUAL numero
+    (26) condicao -> variavel . MAIOR variavel
+    (27) condicao -> variavel . MENOR variavel
+    (28) condicao -> variavel . MAIOR numero
+    (29) condicao -> variavel . MENOR numero
+    (30) condicao -> variavel .
 
-    MAIOR           shift and go to state 38
-    MENOR           shift and go to state 39
     IGUAL           shift and go to state 40
+    MAIOR           shift and go to state 41
+    MENOR           shift and go to state 42
+    THEN            reduce using rule 30 (condicao -> variavel .)
+    FACA            reduce using rule 30 (condicao -> variavel .)
 
 
 state 29
 
-    (24) condicao -> id . IGUAL IGUAL id
-    (25) condicao -> id . IGUAL IGUAL numero
-    (26) condicao -> id . MAIOR id
-    (27) condicao -> id . MENOR id
-    (28) condicao -> id . MAIOR numero
-    (29) condicao -> id . MENOR numero
-    (30) condicao -> id .
+    (9) cmd -> ENQUANTO condicao . FACA cmds FIM
 
-    IGUAL           shift and go to state 41
-    MAIOR           shift and go to state 42
-    MENOR           shift and go to state 43
-    THEN            reduce using rule 30 (condicao -> id .)
-    FACA            reduce using rule 30 (condicao -> id .)
+    FACA            shift and go to state 43
 
 
 state 30
 
-    (9) cmd -> ENQUANTO condicao . FACA cmds FIM
+    (10) cmd -> EVAL ABRE . variavel VIRGULA variavel VIRGULA cmds FECHA
+    (11) cmd -> EVAL ABRE . numero VIRGULA numero VIRGULA cmds FECHA
 
-    FACA            shift and go to state 44
+    variavel        shift and go to state 44
+    numero          shift and go to state 45
 
 
 state 31
 
-    (10) cmd -> EVAL ABRE . id VIRGULA id VIRGULA cmds FECHA
-    (11) cmd -> EVAL ABRE . numero VIRGULA numero VIRGULA cmds FECHA
-    (35) id -> . variavel
+    (12) funcao -> SOMA ABRE . variavel VIRGULA variavel VIRGULA variavel FECHA
+    (13) funcao -> SOMA ABRE . variavel VIRGULA numero VIRGULA variavel FECHA
+    (14) funcao -> SOMA ABRE . numero VIRGULA variavel VIRGULA variavel FECHA
+    (15) funcao -> SOMA ABRE . numero VIRGULA numero VIRGULA variavel FECHA
 
-    numero          shift and go to state 46
-    variavel        shift and go to state 5
+    variavel        shift and go to state 46
+    numero          shift and go to state 47
 
-    id                             shift and go to state 45
 
 state 32
 
-    (12) funcao -> SOMA ABRE . id VIRGULA id VIRGULA id FECHA
-    (13) funcao -> SOMA ABRE . id VIRGULA numero VIRGULA id FECHA
-    (14) funcao -> SOMA ABRE . numero VIRGULA id VIRGULA id FECHA
-    (15) funcao -> SOMA ABRE . numero VIRGULA numero VIRGULA id FECHA
-    (35) id -> . variavel
+    (16) funcao -> MULT ABRE . numero VIRGULA numero VIRGULA variavel FECHA
+    (17) funcao -> MULT ABRE . variavel VIRGULA variavel VIRGULA variavel FECHA
+    (18) funcao -> MULT ABRE . variavel VIRGULA numero VIRGULA variavel FECHA
+    (19) funcao -> MULT ABRE . numero VIRGULA variavel VIRGULA variavel FECHA
 
     numero          shift and go to state 48
-    variavel        shift and go to state 5
+    variavel        shift and go to state 49
 
-    id                             shift and go to state 47
 
 state 33
 
-    (16) funcao -> MULT ABRE . numero VIRGULA numero VIRGULA id FECHA
-    (17) funcao -> MULT ABRE . id VIRGULA id VIRGULA id FECHA
-    (18) funcao -> MULT ABRE . id VIRGULA numero VIRGULA id FECHA
-    (19) funcao -> MULT ABRE . numero VIRGULA id VIRGULA id FECHA
-    (35) id -> . variavel
+    (20) funcao -> ZERO ABRE . variavel FECHA
 
-    numero          shift and go to state 49
-    variavel        shift and go to state 5
+    variavel        shift and go to state 50
 
-    id                             shift and go to state 50
 
 state 34
 
-    (20) funcao -> ZERO ABRE . id FECHA
-    (35) id -> . variavel
+    (5) cmd -> variavel IGUAL variavel .
 
-    variavel        shift and go to state 5
+    variavel        reduce using rule 5 (cmd -> variavel IGUAL variavel .)
+    IF              reduce using rule 5 (cmd -> variavel IGUAL variavel .)
+    ENQUANTO        reduce using rule 5 (cmd -> variavel IGUAL variavel .)
+    EVAL            reduce using rule 5 (cmd -> variavel IGUAL variavel .)
+    SOMA            reduce using rule 5 (cmd -> variavel IGUAL variavel .)
+    MULT            reduce using rule 5 (cmd -> variavel IGUAL variavel .)
+    ZERO            reduce using rule 5 (cmd -> variavel IGUAL variavel .)
+    TERMINO         reduce using rule 5 (cmd -> variavel IGUAL variavel .)
+    FIM             reduce using rule 5 (cmd -> variavel IGUAL variavel .)
+    ELSE            reduce using rule 5 (cmd -> variavel IGUAL variavel .)
+    FECHA           reduce using rule 5 (cmd -> variavel IGUAL variavel .)
 
-    id                             shift and go to state 51
 
 state 35
 
-    (5) cmd -> id IGUAL id .
+    (4) cmd -> variavel IGUAL numero .
 
-    IF              reduce using rule 5 (cmd -> id IGUAL id .)
-    ENQUANTO        reduce using rule 5 (cmd -> id IGUAL id .)
-    EVAL            reduce using rule 5 (cmd -> id IGUAL id .)
-    variavel        reduce using rule 5 (cmd -> id IGUAL id .)
-    SOMA            reduce using rule 5 (cmd -> id IGUAL id .)
-    MULT            reduce using rule 5 (cmd -> id IGUAL id .)
-    ZERO            reduce using rule 5 (cmd -> id IGUAL id .)
-    TERMINO         reduce using rule 5 (cmd -> id IGUAL id .)
-    FIM             reduce using rule 5 (cmd -> id IGUAL id .)
-    ELSE            reduce using rule 5 (cmd -> id IGUAL id .)
-    FECHA           reduce using rule 5 (cmd -> id IGUAL id .)
+    variavel        reduce using rule 4 (cmd -> variavel IGUAL numero .)
+    IF              reduce using rule 4 (cmd -> variavel IGUAL numero .)
+    ENQUANTO        reduce using rule 4 (cmd -> variavel IGUAL numero .)
+    EVAL            reduce using rule 4 (cmd -> variavel IGUAL numero .)
+    SOMA            reduce using rule 4 (cmd -> variavel IGUAL numero .)
+    MULT            reduce using rule 4 (cmd -> variavel IGUAL numero .)
+    ZERO            reduce using rule 4 (cmd -> variavel IGUAL numero .)
+    TERMINO         reduce using rule 4 (cmd -> variavel IGUAL numero .)
+    FIM             reduce using rule 4 (cmd -> variavel IGUAL numero .)
+    ELSE            reduce using rule 4 (cmd -> variavel IGUAL numero .)
+    FECHA           reduce using rule 4 (cmd -> variavel IGUAL numero .)
 
 
 state 36
-
-    (4) cmd -> id IGUAL numero .
-
-    IF              reduce using rule 4 (cmd -> id IGUAL numero .)
-    ENQUANTO        reduce using rule 4 (cmd -> id IGUAL numero .)
-    EVAL            reduce using rule 4 (cmd -> id IGUAL numero .)
-    variavel        reduce using rule 4 (cmd -> id IGUAL numero .)
-    SOMA            reduce using rule 4 (cmd -> id IGUAL numero .)
-    MULT            reduce using rule 4 (cmd -> id IGUAL numero .)
-    ZERO            reduce using rule 4 (cmd -> id IGUAL numero .)
-    TERMINO         reduce using rule 4 (cmd -> id IGUAL numero .)
-    FIM             reduce using rule 4 (cmd -> id IGUAL numero .)
-    ELSE            reduce using rule 4 (cmd -> id IGUAL numero .)
-    FECHA           reduce using rule 4 (cmd -> id IGUAL numero .)
-
-
-state 37
 
     (7) cmd -> IF condicao THEN . cmds FIM
     (8) cmd -> IF condicao THEN . cmds ELSE cmds FIM
     (2) cmds -> . cmd
     (3) cmds -> . cmd cmds
-    (4) cmd -> . id IGUAL numero
-    (5) cmd -> . id IGUAL id
+    (4) cmd -> . variavel IGUAL numero
+    (5) cmd -> . variavel IGUAL variavel
     (6) cmd -> . funcao
     (7) cmd -> . IF condicao THEN cmds FIM
     (8) cmd -> . IF condicao THEN cmds ELSE cmds FIM
     (9) cmd -> . ENQUANTO condicao FACA cmds FIM
-    (10) cmd -> . EVAL ABRE id VIRGULA id VIRGULA cmds FECHA
+    (10) cmd -> . EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA
     (11) cmd -> . EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA
-    (35) id -> . variavel
-    (12) funcao -> . SOMA ABRE id VIRGULA id VIRGULA id FECHA
-    (13) funcao -> . SOMA ABRE id VIRGULA numero VIRGULA id FECHA
-    (14) funcao -> . SOMA ABRE numero VIRGULA id VIRGULA id FECHA
-    (15) funcao -> . SOMA ABRE numero VIRGULA numero VIRGULA id FECHA
-    (16) funcao -> . MULT ABRE numero VIRGULA numero VIRGULA id FECHA
-    (17) funcao -> . MULT ABRE id VIRGULA id VIRGULA id FECHA
-    (18) funcao -> . MULT ABRE id VIRGULA numero VIRGULA id FECHA
-    (19) funcao -> . MULT ABRE numero VIRGULA id VIRGULA id FECHA
-    (20) funcao -> . ZERO ABRE id FECHA
+    (12) funcao -> . SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (13) funcao -> . SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (14) funcao -> . SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+    (15) funcao -> . SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA
+    (16) funcao -> . MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA
+    (17) funcao -> . MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (18) funcao -> . MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (19) funcao -> . MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+    (20) funcao -> . ZERO ABRE variavel FECHA
 
-    IF              shift and go to state 17
-    ENQUANTO        shift and go to state 18
-    EVAL            shift and go to state 19
-    variavel        shift and go to state 5
-    SOMA            shift and go to state 20
-    MULT            shift and go to state 21
-    ZERO            shift and go to state 22
+    variavel        shift and go to state 14
+    IF              shift and go to state 16
+    ENQUANTO        shift and go to state 17
+    EVAL            shift and go to state 18
+    SOMA            shift and go to state 19
+    MULT            shift and go to state 20
+    ZERO            shift and go to state 21
 
-    cmds                           shift and go to state 52
-    cmd                            shift and go to state 14
-    id                             shift and go to state 15
-    funcao                         shift and go to state 16
+    cmds                           shift and go to state 51
+    cmd                            shift and go to state 13
+    funcao                         shift and go to state 15
+
+state 37
+
+    (21) condicao -> numero MAIOR . variavel
+
+    variavel        shift and go to state 52
+
 
 state 38
 
-    (21) condicao -> numero MAIOR . id
-    (35) id -> . variavel
+    (22) condicao -> numero MENOR . variavel
 
-    variavel        shift and go to state 5
+    variavel        shift and go to state 53
 
-    id                             shift and go to state 53
 
 state 39
 
-    (22) condicao -> numero MENOR . id
-    (35) id -> . variavel
+    (23) condicao -> numero IGUAL . IGUAL variavel
 
-    variavel        shift and go to state 5
+    IGUAL           shift and go to state 54
 
-    id                             shift and go to state 54
 
 state 40
 
-    (23) condicao -> numero IGUAL . IGUAL id
+    (24) condicao -> variavel IGUAL . IGUAL variavel
+    (25) condicao -> variavel IGUAL . IGUAL numero
 
     IGUAL           shift and go to state 55
 
 
 state 41
 
-    (24) condicao -> id IGUAL . IGUAL id
-    (25) condicao -> id IGUAL . IGUAL numero
+    (26) condicao -> variavel MAIOR . variavel
+    (28) condicao -> variavel MAIOR . numero
 
-    IGUAL           shift and go to state 56
+    variavel        shift and go to state 56
+    numero          shift and go to state 57
 
 
 state 42
 
-    (26) condicao -> id MAIOR . id
-    (28) condicao -> id MAIOR . numero
-    (35) id -> . variavel
+    (27) condicao -> variavel MENOR . variavel
+    (29) condicao -> variavel MENOR . numero
 
-    numero          shift and go to state 58
-    variavel        shift and go to state 5
+    variavel        shift and go to state 58
+    numero          shift and go to state 59
 
-    id                             shift and go to state 57
 
 state 43
-
-    (27) condicao -> id MENOR . id
-    (29) condicao -> id MENOR . numero
-    (35) id -> . variavel
-
-    numero          shift and go to state 60
-    variavel        shift and go to state 5
-
-    id                             shift and go to state 59
-
-state 44
 
     (9) cmd -> ENQUANTO condicao FACA . cmds FIM
     (2) cmds -> . cmd
     (3) cmds -> . cmd cmds
-    (4) cmd -> . id IGUAL numero
-    (5) cmd -> . id IGUAL id
+    (4) cmd -> . variavel IGUAL numero
+    (5) cmd -> . variavel IGUAL variavel
     (6) cmd -> . funcao
     (7) cmd -> . IF condicao THEN cmds FIM
     (8) cmd -> . IF condicao THEN cmds ELSE cmds FIM
     (9) cmd -> . ENQUANTO condicao FACA cmds FIM
-    (10) cmd -> . EVAL ABRE id VIRGULA id VIRGULA cmds FECHA
+    (10) cmd -> . EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA
     (11) cmd -> . EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA
-    (35) id -> . variavel
-    (12) funcao -> . SOMA ABRE id VIRGULA id VIRGULA id FECHA
-    (13) funcao -> . SOMA ABRE id VIRGULA numero VIRGULA id FECHA
-    (14) funcao -> . SOMA ABRE numero VIRGULA id VIRGULA id FECHA
-    (15) funcao -> . SOMA ABRE numero VIRGULA numero VIRGULA id FECHA
-    (16) funcao -> . MULT ABRE numero VIRGULA numero VIRGULA id FECHA
-    (17) funcao -> . MULT ABRE id VIRGULA id VIRGULA id FECHA
-    (18) funcao -> . MULT ABRE id VIRGULA numero VIRGULA id FECHA
-    (19) funcao -> . MULT ABRE numero VIRGULA id VIRGULA id FECHA
-    (20) funcao -> . ZERO ABRE id FECHA
+    (12) funcao -> . SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (13) funcao -> . SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (14) funcao -> . SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+    (15) funcao -> . SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA
+    (16) funcao -> . MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA
+    (17) funcao -> . MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (18) funcao -> . MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (19) funcao -> . MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+    (20) funcao -> . ZERO ABRE variavel FECHA
 
-    IF              shift and go to state 17
-    ENQUANTO        shift and go to state 18
-    EVAL            shift and go to state 19
-    variavel        shift and go to state 5
-    SOMA            shift and go to state 20
-    MULT            shift and go to state 21
-    ZERO            shift and go to state 22
+    variavel        shift and go to state 14
+    IF              shift and go to state 16
+    ENQUANTO        shift and go to state 17
+    EVAL            shift and go to state 18
+    SOMA            shift and go to state 19
+    MULT            shift and go to state 20
+    ZERO            shift and go to state 21
 
-    cmds                           shift and go to state 61
-    cmd                            shift and go to state 14
-    id                             shift and go to state 15
-    funcao                         shift and go to state 16
+    cmds                           shift and go to state 60
+    cmd                            shift and go to state 13
+    funcao                         shift and go to state 15
+
+state 44
+
+    (10) cmd -> EVAL ABRE variavel . VIRGULA variavel VIRGULA cmds FECHA
+
+    VIRGULA         shift and go to state 61
+
 
 state 45
 
-    (10) cmd -> EVAL ABRE id . VIRGULA id VIRGULA cmds FECHA
+    (11) cmd -> EVAL ABRE numero . VIRGULA numero VIRGULA cmds FECHA
 
     VIRGULA         shift and go to state 62
 
 
 state 46
 
-    (11) cmd -> EVAL ABRE numero . VIRGULA numero VIRGULA cmds FECHA
+    (12) funcao -> SOMA ABRE variavel . VIRGULA variavel VIRGULA variavel FECHA
+    (13) funcao -> SOMA ABRE variavel . VIRGULA numero VIRGULA variavel FECHA
 
     VIRGULA         shift and go to state 63
 
 
 state 47
 
-    (12) funcao -> SOMA ABRE id . VIRGULA id VIRGULA id FECHA
-    (13) funcao -> SOMA ABRE id . VIRGULA numero VIRGULA id FECHA
+    (14) funcao -> SOMA ABRE numero . VIRGULA variavel VIRGULA variavel FECHA
+    (15) funcao -> SOMA ABRE numero . VIRGULA numero VIRGULA variavel FECHA
 
     VIRGULA         shift and go to state 64
 
 
 state 48
 
-    (14) funcao -> SOMA ABRE numero . VIRGULA id VIRGULA id FECHA
-    (15) funcao -> SOMA ABRE numero . VIRGULA numero VIRGULA id FECHA
+    (16) funcao -> MULT ABRE numero . VIRGULA numero VIRGULA variavel FECHA
+    (19) funcao -> MULT ABRE numero . VIRGULA variavel VIRGULA variavel FECHA
 
     VIRGULA         shift and go to state 65
 
 
 state 49
 
-    (16) funcao -> MULT ABRE numero . VIRGULA numero VIRGULA id FECHA
-    (19) funcao -> MULT ABRE numero . VIRGULA id VIRGULA id FECHA
+    (17) funcao -> MULT ABRE variavel . VIRGULA variavel VIRGULA variavel FECHA
+    (18) funcao -> MULT ABRE variavel . VIRGULA numero VIRGULA variavel FECHA
 
     VIRGULA         shift and go to state 66
 
 
 state 50
 
-    (17) funcao -> MULT ABRE id . VIRGULA id VIRGULA id FECHA
-    (18) funcao -> MULT ABRE id . VIRGULA numero VIRGULA id FECHA
+    (20) funcao -> ZERO ABRE variavel . FECHA
 
-    VIRGULA         shift and go to state 67
+    FECHA           shift and go to state 67
 
 
 state 51
 
-    (20) funcao -> ZERO ABRE id . FECHA
+    (7) cmd -> IF condicao THEN cmds . FIM
+    (8) cmd -> IF condicao THEN cmds . ELSE cmds FIM
 
-    FECHA           shift and go to state 68
+    FIM             shift and go to state 68
+    ELSE            shift and go to state 69
 
 
 state 52
 
-    (7) cmd -> IF condicao THEN cmds . FIM
-    (8) cmd -> IF condicao THEN cmds . ELSE cmds FIM
+    (21) condicao -> numero MAIOR variavel .
 
-    FIM             shift and go to state 69
-    ELSE            shift and go to state 70
+    THEN            reduce using rule 21 (condicao -> numero MAIOR variavel .)
+    FACA            reduce using rule 21 (condicao -> numero MAIOR variavel .)
 
 
 state 53
 
-    (21) condicao -> numero MAIOR id .
+    (22) condicao -> numero MENOR variavel .
 
-    THEN            reduce using rule 21 (condicao -> numero MAIOR id .)
-    FACA            reduce using rule 21 (condicao -> numero MAIOR id .)
+    THEN            reduce using rule 22 (condicao -> numero MENOR variavel .)
+    FACA            reduce using rule 22 (condicao -> numero MENOR variavel .)
 
 
 state 54
 
-    (22) condicao -> numero MENOR id .
+    (23) condicao -> numero IGUAL IGUAL . variavel
 
-    THEN            reduce using rule 22 (condicao -> numero MENOR id .)
-    FACA            reduce using rule 22 (condicao -> numero MENOR id .)
+    variavel        shift and go to state 70
 
 
 state 55
 
-    (23) condicao -> numero IGUAL IGUAL . id
-    (35) id -> . variavel
+    (24) condicao -> variavel IGUAL IGUAL . variavel
+    (25) condicao -> variavel IGUAL IGUAL . numero
 
-    variavel        shift and go to state 5
+    variavel        shift and go to state 71
+    numero          shift and go to state 72
 
-    id                             shift and go to state 71
 
 state 56
 
-    (24) condicao -> id IGUAL IGUAL . id
-    (25) condicao -> id IGUAL IGUAL . numero
-    (35) id -> . variavel
+    (26) condicao -> variavel MAIOR variavel .
 
-    numero          shift and go to state 73
-    variavel        shift and go to state 5
+    THEN            reduce using rule 26 (condicao -> variavel MAIOR variavel .)
+    FACA            reduce using rule 26 (condicao -> variavel MAIOR variavel .)
 
-    id                             shift and go to state 72
 
 state 57
 
-    (26) condicao -> id MAIOR id .
+    (28) condicao -> variavel MAIOR numero .
 
-    THEN            reduce using rule 26 (condicao -> id MAIOR id .)
-    FACA            reduce using rule 26 (condicao -> id MAIOR id .)
+    THEN            reduce using rule 28 (condicao -> variavel MAIOR numero .)
+    FACA            reduce using rule 28 (condicao -> variavel MAIOR numero .)
 
 
 state 58
 
-    (28) condicao -> id MAIOR numero .
+    (27) condicao -> variavel MENOR variavel .
 
-    THEN            reduce using rule 28 (condicao -> id MAIOR numero .)
-    FACA            reduce using rule 28 (condicao -> id MAIOR numero .)
+    THEN            reduce using rule 27 (condicao -> variavel MENOR variavel .)
+    FACA            reduce using rule 27 (condicao -> variavel MENOR variavel .)
 
 
 state 59
 
-    (27) condicao -> id MENOR id .
+    (29) condicao -> variavel MENOR numero .
 
-    THEN            reduce using rule 27 (condicao -> id MENOR id .)
-    FACA            reduce using rule 27 (condicao -> id MENOR id .)
+    THEN            reduce using rule 29 (condicao -> variavel MENOR numero .)
+    FACA            reduce using rule 29 (condicao -> variavel MENOR numero .)
 
 
 state 60
 
-    (29) condicao -> id MENOR numero .
+    (9) cmd -> ENQUANTO condicao FACA cmds . FIM
 
-    THEN            reduce using rule 29 (condicao -> id MENOR numero .)
-    FACA            reduce using rule 29 (condicao -> id MENOR numero .)
+    FIM             shift and go to state 73
 
 
 state 61
 
-    (9) cmd -> ENQUANTO condicao FACA cmds . FIM
+    (10) cmd -> EVAL ABRE variavel VIRGULA . variavel VIRGULA cmds FECHA
 
-    FIM             shift and go to state 74
+    variavel        shift and go to state 74
 
 
 state 62
 
-    (10) cmd -> EVAL ABRE id VIRGULA . id VIRGULA cmds FECHA
-    (35) id -> . variavel
+    (11) cmd -> EVAL ABRE numero VIRGULA . numero VIRGULA cmds FECHA
 
-    variavel        shift and go to state 5
+    numero          shift and go to state 75
 
-    id                             shift and go to state 75
 
 state 63
 
-    (11) cmd -> EVAL ABRE numero VIRGULA . numero VIRGULA cmds FECHA
+    (12) funcao -> SOMA ABRE variavel VIRGULA . variavel VIRGULA variavel FECHA
+    (13) funcao -> SOMA ABRE variavel VIRGULA . numero VIRGULA variavel FECHA
 
-    numero          shift and go to state 76
+    variavel        shift and go to state 76
+    numero          shift and go to state 77
 
 
 state 64
 
-    (12) funcao -> SOMA ABRE id VIRGULA . id VIRGULA id FECHA
-    (13) funcao -> SOMA ABRE id VIRGULA . numero VIRGULA id FECHA
-    (35) id -> . variavel
+    (14) funcao -> SOMA ABRE numero VIRGULA . variavel VIRGULA variavel FECHA
+    (15) funcao -> SOMA ABRE numero VIRGULA . numero VIRGULA variavel FECHA
 
+    variavel        shift and go to state 79
     numero          shift and go to state 78
-    variavel        shift and go to state 5
 
-    id                             shift and go to state 77
 
 state 65
 
-    (14) funcao -> SOMA ABRE numero VIRGULA . id VIRGULA id FECHA
-    (15) funcao -> SOMA ABRE numero VIRGULA . numero VIRGULA id FECHA
-    (35) id -> . variavel
+    (16) funcao -> MULT ABRE numero VIRGULA . numero VIRGULA variavel FECHA
+    (19) funcao -> MULT ABRE numero VIRGULA . variavel VIRGULA variavel FECHA
 
-    numero          shift and go to state 79
-    variavel        shift and go to state 5
+    numero          shift and go to state 80
+    variavel        shift and go to state 81
 
-    id                             shift and go to state 80
 
 state 66
 
-    (16) funcao -> MULT ABRE numero VIRGULA . numero VIRGULA id FECHA
-    (19) funcao -> MULT ABRE numero VIRGULA . id VIRGULA id FECHA
-    (35) id -> . variavel
+    (17) funcao -> MULT ABRE variavel VIRGULA . variavel VIRGULA variavel FECHA
+    (18) funcao -> MULT ABRE variavel VIRGULA . numero VIRGULA variavel FECHA
 
-    numero          shift and go to state 81
-    variavel        shift and go to state 5
+    variavel        shift and go to state 82
+    numero          shift and go to state 83
 
-    id                             shift and go to state 82
 
 state 67
 
-    (17) funcao -> MULT ABRE id VIRGULA . id VIRGULA id FECHA
-    (18) funcao -> MULT ABRE id VIRGULA . numero VIRGULA id FECHA
-    (35) id -> . variavel
+    (20) funcao -> ZERO ABRE variavel FECHA .
 
-    numero          shift and go to state 84
-    variavel        shift and go to state 5
+    variavel        reduce using rule 20 (funcao -> ZERO ABRE variavel FECHA .)
+    IF              reduce using rule 20 (funcao -> ZERO ABRE variavel FECHA .)
+    ENQUANTO        reduce using rule 20 (funcao -> ZERO ABRE variavel FECHA .)
+    EVAL            reduce using rule 20 (funcao -> ZERO ABRE variavel FECHA .)
+    SOMA            reduce using rule 20 (funcao -> ZERO ABRE variavel FECHA .)
+    MULT            reduce using rule 20 (funcao -> ZERO ABRE variavel FECHA .)
+    ZERO            reduce using rule 20 (funcao -> ZERO ABRE variavel FECHA .)
+    TERMINO         reduce using rule 20 (funcao -> ZERO ABRE variavel FECHA .)
+    FIM             reduce using rule 20 (funcao -> ZERO ABRE variavel FECHA .)
+    ELSE            reduce using rule 20 (funcao -> ZERO ABRE variavel FECHA .)
+    FECHA           reduce using rule 20 (funcao -> ZERO ABRE variavel FECHA .)
 
-    id                             shift and go to state 83
 
 state 68
 
-    (20) funcao -> ZERO ABRE id FECHA .
-
-    IF              reduce using rule 20 (funcao -> ZERO ABRE id FECHA .)
-    ENQUANTO        reduce using rule 20 (funcao -> ZERO ABRE id FECHA .)
-    EVAL            reduce using rule 20 (funcao -> ZERO ABRE id FECHA .)
-    variavel        reduce using rule 20 (funcao -> ZERO ABRE id FECHA .)
-    SOMA            reduce using rule 20 (funcao -> ZERO ABRE id FECHA .)
-    MULT            reduce using rule 20 (funcao -> ZERO ABRE id FECHA .)
-    ZERO            reduce using rule 20 (funcao -> ZERO ABRE id FECHA .)
-    TERMINO         reduce using rule 20 (funcao -> ZERO ABRE id FECHA .)
-    FIM             reduce using rule 20 (funcao -> ZERO ABRE id FECHA .)
-    ELSE            reduce using rule 20 (funcao -> ZERO ABRE id FECHA .)
-    FECHA           reduce using rule 20 (funcao -> ZERO ABRE id FECHA .)
-
-
-state 69
-
     (7) cmd -> IF condicao THEN cmds FIM .
 
+    variavel        reduce using rule 7 (cmd -> IF condicao THEN cmds FIM .)
     IF              reduce using rule 7 (cmd -> IF condicao THEN cmds FIM .)
     ENQUANTO        reduce using rule 7 (cmd -> IF condicao THEN cmds FIM .)
     EVAL            reduce using rule 7 (cmd -> IF condicao THEN cmds FIM .)
-    variavel        reduce using rule 7 (cmd -> IF condicao THEN cmds FIM .)
     SOMA            reduce using rule 7 (cmd -> IF condicao THEN cmds FIM .)
     MULT            reduce using rule 7 (cmd -> IF condicao THEN cmds FIM .)
     ZERO            reduce using rule 7 (cmd -> IF condicao THEN cmds FIM .)
@@ -913,75 +834,73 @@ state 69
     FECHA           reduce using rule 7 (cmd -> IF condicao THEN cmds FIM .)
 
 
-state 70
+state 69
 
     (8) cmd -> IF condicao THEN cmds ELSE . cmds FIM
     (2) cmds -> . cmd
     (3) cmds -> . cmd cmds
-    (4) cmd -> . id IGUAL numero
-    (5) cmd -> . id IGUAL id
+    (4) cmd -> . variavel IGUAL numero
+    (5) cmd -> . variavel IGUAL variavel
     (6) cmd -> . funcao
     (7) cmd -> . IF condicao THEN cmds FIM
     (8) cmd -> . IF condicao THEN cmds ELSE cmds FIM
     (9) cmd -> . ENQUANTO condicao FACA cmds FIM
-    (10) cmd -> . EVAL ABRE id VIRGULA id VIRGULA cmds FECHA
+    (10) cmd -> . EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA
     (11) cmd -> . EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA
-    (35) id -> . variavel
-    (12) funcao -> . SOMA ABRE id VIRGULA id VIRGULA id FECHA
-    (13) funcao -> . SOMA ABRE id VIRGULA numero VIRGULA id FECHA
-    (14) funcao -> . SOMA ABRE numero VIRGULA id VIRGULA id FECHA
-    (15) funcao -> . SOMA ABRE numero VIRGULA numero VIRGULA id FECHA
-    (16) funcao -> . MULT ABRE numero VIRGULA numero VIRGULA id FECHA
-    (17) funcao -> . MULT ABRE id VIRGULA id VIRGULA id FECHA
-    (18) funcao -> . MULT ABRE id VIRGULA numero VIRGULA id FECHA
-    (19) funcao -> . MULT ABRE numero VIRGULA id VIRGULA id FECHA
-    (20) funcao -> . ZERO ABRE id FECHA
+    (12) funcao -> . SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (13) funcao -> . SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (14) funcao -> . SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+    (15) funcao -> . SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA
+    (16) funcao -> . MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA
+    (17) funcao -> . MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (18) funcao -> . MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (19) funcao -> . MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+    (20) funcao -> . ZERO ABRE variavel FECHA
 
-    IF              shift and go to state 17
-    ENQUANTO        shift and go to state 18
-    EVAL            shift and go to state 19
-    variavel        shift and go to state 5
-    SOMA            shift and go to state 20
-    MULT            shift and go to state 21
-    ZERO            shift and go to state 22
+    variavel        shift and go to state 14
+    IF              shift and go to state 16
+    ENQUANTO        shift and go to state 17
+    EVAL            shift and go to state 18
+    SOMA            shift and go to state 19
+    MULT            shift and go to state 20
+    ZERO            shift and go to state 21
 
-    cmds                           shift and go to state 85
-    cmd                            shift and go to state 14
-    id                             shift and go to state 15
-    funcao                         shift and go to state 16
+    cmds                           shift and go to state 84
+    cmd                            shift and go to state 13
+    funcao                         shift and go to state 15
+
+state 70
+
+    (23) condicao -> numero IGUAL IGUAL variavel .
+
+    THEN            reduce using rule 23 (condicao -> numero IGUAL IGUAL variavel .)
+    FACA            reduce using rule 23 (condicao -> numero IGUAL IGUAL variavel .)
+
 
 state 71
 
-    (23) condicao -> numero IGUAL IGUAL id .
+    (24) condicao -> variavel IGUAL IGUAL variavel .
 
-    THEN            reduce using rule 23 (condicao -> numero IGUAL IGUAL id .)
-    FACA            reduce using rule 23 (condicao -> numero IGUAL IGUAL id .)
+    THEN            reduce using rule 24 (condicao -> variavel IGUAL IGUAL variavel .)
+    FACA            reduce using rule 24 (condicao -> variavel IGUAL IGUAL variavel .)
 
 
 state 72
 
-    (24) condicao -> id IGUAL IGUAL id .
+    (25) condicao -> variavel IGUAL IGUAL numero .
 
-    THEN            reduce using rule 24 (condicao -> id IGUAL IGUAL id .)
-    FACA            reduce using rule 24 (condicao -> id IGUAL IGUAL id .)
+    THEN            reduce using rule 25 (condicao -> variavel IGUAL IGUAL numero .)
+    FACA            reduce using rule 25 (condicao -> variavel IGUAL IGUAL numero .)
 
 
 state 73
 
-    (25) condicao -> id IGUAL IGUAL numero .
-
-    THEN            reduce using rule 25 (condicao -> id IGUAL IGUAL numero .)
-    FACA            reduce using rule 25 (condicao -> id IGUAL IGUAL numero .)
-
-
-state 74
-
     (9) cmd -> ENQUANTO condicao FACA cmds FIM .
 
+    variavel        reduce using rule 9 (cmd -> ENQUANTO condicao FACA cmds FIM .)
     IF              reduce using rule 9 (cmd -> ENQUANTO condicao FACA cmds FIM .)
     ENQUANTO        reduce using rule 9 (cmd -> ENQUANTO condicao FACA cmds FIM .)
     EVAL            reduce using rule 9 (cmd -> ENQUANTO condicao FACA cmds FIM .)
-    variavel        reduce using rule 9 (cmd -> ENQUANTO condicao FACA cmds FIM .)
     SOMA            reduce using rule 9 (cmd -> ENQUANTO condicao FACA cmds FIM .)
     MULT            reduce using rule 9 (cmd -> ENQUANTO condicao FACA cmds FIM .)
     ZERO            reduce using rule 9 (cmd -> ENQUANTO condicao FACA cmds FIM .)
@@ -991,237 +910,217 @@ state 74
     FECHA           reduce using rule 9 (cmd -> ENQUANTO condicao FACA cmds FIM .)
 
 
+state 74
+
+    (10) cmd -> EVAL ABRE variavel VIRGULA variavel . VIRGULA cmds FECHA
+
+    VIRGULA         shift and go to state 85
+
+
 state 75
 
-    (10) cmd -> EVAL ABRE id VIRGULA id . VIRGULA cmds FECHA
+    (11) cmd -> EVAL ABRE numero VIRGULA numero . VIRGULA cmds FECHA
 
     VIRGULA         shift and go to state 86
 
 
 state 76
 
-    (11) cmd -> EVAL ABRE numero VIRGULA numero . VIRGULA cmds FECHA
+    (12) funcao -> SOMA ABRE variavel VIRGULA variavel . VIRGULA variavel FECHA
 
     VIRGULA         shift and go to state 87
 
 
 state 77
 
-    (12) funcao -> SOMA ABRE id VIRGULA id . VIRGULA id FECHA
+    (13) funcao -> SOMA ABRE variavel VIRGULA numero . VIRGULA variavel FECHA
 
     VIRGULA         shift and go to state 88
 
 
 state 78
 
-    (13) funcao -> SOMA ABRE id VIRGULA numero . VIRGULA id FECHA
+    (15) funcao -> SOMA ABRE numero VIRGULA numero . VIRGULA variavel FECHA
 
     VIRGULA         shift and go to state 89
 
 
 state 79
 
-    (15) funcao -> SOMA ABRE numero VIRGULA numero . VIRGULA id FECHA
+    (14) funcao -> SOMA ABRE numero VIRGULA variavel . VIRGULA variavel FECHA
 
     VIRGULA         shift and go to state 90
 
 
 state 80
 
-    (14) funcao -> SOMA ABRE numero VIRGULA id . VIRGULA id FECHA
+    (16) funcao -> MULT ABRE numero VIRGULA numero . VIRGULA variavel FECHA
 
     VIRGULA         shift and go to state 91
 
 
 state 81
 
-    (16) funcao -> MULT ABRE numero VIRGULA numero . VIRGULA id FECHA
+    (19) funcao -> MULT ABRE numero VIRGULA variavel . VIRGULA variavel FECHA
 
     VIRGULA         shift and go to state 92
 
 
 state 82
 
-    (19) funcao -> MULT ABRE numero VIRGULA id . VIRGULA id FECHA
+    (17) funcao -> MULT ABRE variavel VIRGULA variavel . VIRGULA variavel FECHA
 
     VIRGULA         shift and go to state 93
 
 
 state 83
 
-    (17) funcao -> MULT ABRE id VIRGULA id . VIRGULA id FECHA
+    (18) funcao -> MULT ABRE variavel VIRGULA numero . VIRGULA variavel FECHA
 
     VIRGULA         shift and go to state 94
 
 
 state 84
 
-    (18) funcao -> MULT ABRE id VIRGULA numero . VIRGULA id FECHA
+    (8) cmd -> IF condicao THEN cmds ELSE cmds . FIM
 
-    VIRGULA         shift and go to state 95
+    FIM             shift and go to state 95
 
 
 state 85
 
-    (8) cmd -> IF condicao THEN cmds ELSE cmds . FIM
-
-    FIM             shift and go to state 96
-
-
-state 86
-
-    (10) cmd -> EVAL ABRE id VIRGULA id VIRGULA . cmds FECHA
+    (10) cmd -> EVAL ABRE variavel VIRGULA variavel VIRGULA . cmds FECHA
     (2) cmds -> . cmd
     (3) cmds -> . cmd cmds
-    (4) cmd -> . id IGUAL numero
-    (5) cmd -> . id IGUAL id
+    (4) cmd -> . variavel IGUAL numero
+    (5) cmd -> . variavel IGUAL variavel
     (6) cmd -> . funcao
     (7) cmd -> . IF condicao THEN cmds FIM
     (8) cmd -> . IF condicao THEN cmds ELSE cmds FIM
     (9) cmd -> . ENQUANTO condicao FACA cmds FIM
-    (10) cmd -> . EVAL ABRE id VIRGULA id VIRGULA cmds FECHA
+    (10) cmd -> . EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA
     (11) cmd -> . EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA
-    (35) id -> . variavel
-    (12) funcao -> . SOMA ABRE id VIRGULA id VIRGULA id FECHA
-    (13) funcao -> . SOMA ABRE id VIRGULA numero VIRGULA id FECHA
-    (14) funcao -> . SOMA ABRE numero VIRGULA id VIRGULA id FECHA
-    (15) funcao -> . SOMA ABRE numero VIRGULA numero VIRGULA id FECHA
-    (16) funcao -> . MULT ABRE numero VIRGULA numero VIRGULA id FECHA
-    (17) funcao -> . MULT ABRE id VIRGULA id VIRGULA id FECHA
-    (18) funcao -> . MULT ABRE id VIRGULA numero VIRGULA id FECHA
-    (19) funcao -> . MULT ABRE numero VIRGULA id VIRGULA id FECHA
-    (20) funcao -> . ZERO ABRE id FECHA
+    (12) funcao -> . SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (13) funcao -> . SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (14) funcao -> . SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+    (15) funcao -> . SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA
+    (16) funcao -> . MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA
+    (17) funcao -> . MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (18) funcao -> . MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (19) funcao -> . MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+    (20) funcao -> . ZERO ABRE variavel FECHA
 
-    IF              shift and go to state 17
-    ENQUANTO        shift and go to state 18
-    EVAL            shift and go to state 19
-    variavel        shift and go to state 5
-    SOMA            shift and go to state 20
-    MULT            shift and go to state 21
-    ZERO            shift and go to state 22
+    variavel        shift and go to state 14
+    IF              shift and go to state 16
+    ENQUANTO        shift and go to state 17
+    EVAL            shift and go to state 18
+    SOMA            shift and go to state 19
+    MULT            shift and go to state 20
+    ZERO            shift and go to state 21
 
-    id                             shift and go to state 15
-    cmds                           shift and go to state 97
-    cmd                            shift and go to state 14
-    funcao                         shift and go to state 16
+    cmds                           shift and go to state 96
+    cmd                            shift and go to state 13
+    funcao                         shift and go to state 15
 
-state 87
+state 86
 
     (11) cmd -> EVAL ABRE numero VIRGULA numero VIRGULA . cmds FECHA
     (2) cmds -> . cmd
     (3) cmds -> . cmd cmds
-    (4) cmd -> . id IGUAL numero
-    (5) cmd -> . id IGUAL id
+    (4) cmd -> . variavel IGUAL numero
+    (5) cmd -> . variavel IGUAL variavel
     (6) cmd -> . funcao
     (7) cmd -> . IF condicao THEN cmds FIM
     (8) cmd -> . IF condicao THEN cmds ELSE cmds FIM
     (9) cmd -> . ENQUANTO condicao FACA cmds FIM
-    (10) cmd -> . EVAL ABRE id VIRGULA id VIRGULA cmds FECHA
+    (10) cmd -> . EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA
     (11) cmd -> . EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA
-    (35) id -> . variavel
-    (12) funcao -> . SOMA ABRE id VIRGULA id VIRGULA id FECHA
-    (13) funcao -> . SOMA ABRE id VIRGULA numero VIRGULA id FECHA
-    (14) funcao -> . SOMA ABRE numero VIRGULA id VIRGULA id FECHA
-    (15) funcao -> . SOMA ABRE numero VIRGULA numero VIRGULA id FECHA
-    (16) funcao -> . MULT ABRE numero VIRGULA numero VIRGULA id FECHA
-    (17) funcao -> . MULT ABRE id VIRGULA id VIRGULA id FECHA
-    (18) funcao -> . MULT ABRE id VIRGULA numero VIRGULA id FECHA
-    (19) funcao -> . MULT ABRE numero VIRGULA id VIRGULA id FECHA
-    (20) funcao -> . ZERO ABRE id FECHA
+    (12) funcao -> . SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (13) funcao -> . SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (14) funcao -> . SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+    (15) funcao -> . SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA
+    (16) funcao -> . MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA
+    (17) funcao -> . MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA
+    (18) funcao -> . MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA
+    (19) funcao -> . MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA
+    (20) funcao -> . ZERO ABRE variavel FECHA
 
-    IF              shift and go to state 17
-    ENQUANTO        shift and go to state 18
-    EVAL            shift and go to state 19
-    variavel        shift and go to state 5
-    SOMA            shift and go to state 20
-    MULT            shift and go to state 21
-    ZERO            shift and go to state 22
+    variavel        shift and go to state 14
+    IF              shift and go to state 16
+    ENQUANTO        shift and go to state 17
+    EVAL            shift and go to state 18
+    SOMA            shift and go to state 19
+    MULT            shift and go to state 20
+    ZERO            shift and go to state 21
 
-    cmds                           shift and go to state 98
-    cmd                            shift and go to state 14
-    id                             shift and go to state 15
-    funcao                         shift and go to state 16
+    cmds                           shift and go to state 97
+    cmd                            shift and go to state 13
+    funcao                         shift and go to state 15
+
+state 87
+
+    (12) funcao -> SOMA ABRE variavel VIRGULA variavel VIRGULA . variavel FECHA
+
+    variavel        shift and go to state 98
+
 
 state 88
 
-    (12) funcao -> SOMA ABRE id VIRGULA id VIRGULA . id FECHA
-    (35) id -> . variavel
+    (13) funcao -> SOMA ABRE variavel VIRGULA numero VIRGULA . variavel FECHA
 
-    variavel        shift and go to state 5
+    variavel        shift and go to state 99
 
-    id                             shift and go to state 99
 
 state 89
 
-    (13) funcao -> SOMA ABRE id VIRGULA numero VIRGULA . id FECHA
-    (35) id -> . variavel
+    (15) funcao -> SOMA ABRE numero VIRGULA numero VIRGULA . variavel FECHA
 
-    variavel        shift and go to state 5
+    variavel        shift and go to state 100
 
-    id                             shift and go to state 100
 
 state 90
 
-    (15) funcao -> SOMA ABRE numero VIRGULA numero VIRGULA . id FECHA
-    (35) id -> . variavel
+    (14) funcao -> SOMA ABRE numero VIRGULA variavel VIRGULA . variavel FECHA
 
-    variavel        shift and go to state 5
+    variavel        shift and go to state 101
 
-    id                             shift and go to state 101
 
 state 91
 
-    (14) funcao -> SOMA ABRE numero VIRGULA id VIRGULA . id FECHA
-    (35) id -> . variavel
+    (16) funcao -> MULT ABRE numero VIRGULA numero VIRGULA . variavel FECHA
 
-    variavel        shift and go to state 5
+    variavel        shift and go to state 102
 
-    id                             shift and go to state 102
 
 state 92
 
-    (16) funcao -> MULT ABRE numero VIRGULA numero VIRGULA . id FECHA
-    (35) id -> . variavel
+    (19) funcao -> MULT ABRE numero VIRGULA variavel VIRGULA . variavel FECHA
 
-    variavel        shift and go to state 5
+    variavel        shift and go to state 103
 
-    id                             shift and go to state 103
 
 state 93
 
-    (19) funcao -> MULT ABRE numero VIRGULA id VIRGULA . id FECHA
-    (35) id -> . variavel
+    (17) funcao -> MULT ABRE variavel VIRGULA variavel VIRGULA . variavel FECHA
 
-    variavel        shift and go to state 5
+    variavel        shift and go to state 104
 
-    id                             shift and go to state 104
 
 state 94
 
-    (17) funcao -> MULT ABRE id VIRGULA id VIRGULA . id FECHA
-    (35) id -> . variavel
+    (18) funcao -> MULT ABRE variavel VIRGULA numero VIRGULA . variavel FECHA
 
-    variavel        shift and go to state 5
+    variavel        shift and go to state 105
 
-    id                             shift and go to state 105
 
 state 95
 
-    (18) funcao -> MULT ABRE id VIRGULA numero VIRGULA . id FECHA
-    (35) id -> . variavel
-
-    variavel        shift and go to state 5
-
-    id                             shift and go to state 106
-
-state 96
-
     (8) cmd -> IF condicao THEN cmds ELSE cmds FIM .
 
+    variavel        reduce using rule 8 (cmd -> IF condicao THEN cmds ELSE cmds FIM .)
     IF              reduce using rule 8 (cmd -> IF condicao THEN cmds ELSE cmds FIM .)
     ENQUANTO        reduce using rule 8 (cmd -> IF condicao THEN cmds ELSE cmds FIM .)
     EVAL            reduce using rule 8 (cmd -> IF condicao THEN cmds ELSE cmds FIM .)
-    variavel        reduce using rule 8 (cmd -> IF condicao THEN cmds ELSE cmds FIM .)
     SOMA            reduce using rule 8 (cmd -> IF condicao THEN cmds ELSE cmds FIM .)
     MULT            reduce using rule 8 (cmd -> IF condicao THEN cmds ELSE cmds FIM .)
     ZERO            reduce using rule 8 (cmd -> IF condicao THEN cmds ELSE cmds FIM .)
@@ -1231,101 +1130,101 @@ state 96
     FECHA           reduce using rule 8 (cmd -> IF condicao THEN cmds ELSE cmds FIM .)
 
 
+state 96
+
+    (10) cmd -> EVAL ABRE variavel VIRGULA variavel VIRGULA cmds . FECHA
+
+    FECHA           shift and go to state 106
+
+
 state 97
 
-    (10) cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds . FECHA
+    (11) cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds . FECHA
 
     FECHA           shift and go to state 107
 
 
 state 98
 
-    (11) cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds . FECHA
+    (12) funcao -> SOMA ABRE variavel VIRGULA variavel VIRGULA variavel . FECHA
 
     FECHA           shift and go to state 108
 
 
 state 99
 
-    (12) funcao -> SOMA ABRE id VIRGULA id VIRGULA id . FECHA
+    (13) funcao -> SOMA ABRE variavel VIRGULA numero VIRGULA variavel . FECHA
 
     FECHA           shift and go to state 109
 
 
 state 100
 
-    (13) funcao -> SOMA ABRE id VIRGULA numero VIRGULA id . FECHA
+    (15) funcao -> SOMA ABRE numero VIRGULA numero VIRGULA variavel . FECHA
 
     FECHA           shift and go to state 110
 
 
 state 101
 
-    (15) funcao -> SOMA ABRE numero VIRGULA numero VIRGULA id . FECHA
+    (14) funcao -> SOMA ABRE numero VIRGULA variavel VIRGULA variavel . FECHA
 
     FECHA           shift and go to state 111
 
 
 state 102
 
-    (14) funcao -> SOMA ABRE numero VIRGULA id VIRGULA id . FECHA
+    (16) funcao -> MULT ABRE numero VIRGULA numero VIRGULA variavel . FECHA
 
     FECHA           shift and go to state 112
 
 
 state 103
 
-    (16) funcao -> MULT ABRE numero VIRGULA numero VIRGULA id . FECHA
+    (19) funcao -> MULT ABRE numero VIRGULA variavel VIRGULA variavel . FECHA
 
     FECHA           shift and go to state 113
 
 
 state 104
 
-    (19) funcao -> MULT ABRE numero VIRGULA id VIRGULA id . FECHA
+    (17) funcao -> MULT ABRE variavel VIRGULA variavel VIRGULA variavel . FECHA
 
     FECHA           shift and go to state 114
 
 
 state 105
 
-    (17) funcao -> MULT ABRE id VIRGULA id VIRGULA id . FECHA
+    (18) funcao -> MULT ABRE variavel VIRGULA numero VIRGULA variavel . FECHA
 
     FECHA           shift and go to state 115
 
 
 state 106
 
-    (18) funcao -> MULT ABRE id VIRGULA numero VIRGULA id . FECHA
+    (10) cmd -> EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA .
 
-    FECHA           shift and go to state 116
+    variavel        reduce using rule 10 (cmd -> EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA .)
+    IF              reduce using rule 10 (cmd -> EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA .)
+    ENQUANTO        reduce using rule 10 (cmd -> EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA .)
+    EVAL            reduce using rule 10 (cmd -> EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA .)
+    SOMA            reduce using rule 10 (cmd -> EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA .)
+    MULT            reduce using rule 10 (cmd -> EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA .)
+    ZERO            reduce using rule 10 (cmd -> EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA .)
+    TERMINO         reduce using rule 10 (cmd -> EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA .)
+    FIM             reduce using rule 10 (cmd -> EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA .)
+    ELSE            reduce using rule 10 (cmd -> EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA .)
+    FECHA           reduce using rule 10 (cmd -> EVAL ABRE variavel VIRGULA variavel VIRGULA cmds FECHA .)
 
 
 state 107
 
-    (10) cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA .
-
-    IF              reduce using rule 10 (cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA .)
-    ENQUANTO        reduce using rule 10 (cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA .)
-    EVAL            reduce using rule 10 (cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA .)
-    variavel        reduce using rule 10 (cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA .)
-    SOMA            reduce using rule 10 (cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA .)
-    MULT            reduce using rule 10 (cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA .)
-    ZERO            reduce using rule 10 (cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA .)
-    TERMINO         reduce using rule 10 (cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA .)
-    FIM             reduce using rule 10 (cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA .)
-    ELSE            reduce using rule 10 (cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA .)
-    FECHA           reduce using rule 10 (cmd -> EVAL ABRE id VIRGULA id VIRGULA cmds FECHA .)
-
-
-state 108
-
     (11) cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA .
 
+    variavel        reduce using rule 11 (cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA .)
     IF              reduce using rule 11 (cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA .)
     ENQUANTO        reduce using rule 11 (cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA .)
     EVAL            reduce using rule 11 (cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA .)
-    variavel        reduce using rule 11 (cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA .)
     SOMA            reduce using rule 11 (cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA .)
     MULT            reduce using rule 11 (cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA .)
     ZERO            reduce using rule 11 (cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA .)
@@ -1335,138 +1234,138 @@ state 108
     FECHA           reduce using rule 11 (cmd -> EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA .)
 
 
+state 108
+
+    (12) funcao -> SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .
+
+    variavel        reduce using rule 12 (funcao -> SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    IF              reduce using rule 12 (funcao -> SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    ENQUANTO        reduce using rule 12 (funcao -> SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    EVAL            reduce using rule 12 (funcao -> SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    SOMA            reduce using rule 12 (funcao -> SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    MULT            reduce using rule 12 (funcao -> SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    ZERO            reduce using rule 12 (funcao -> SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    TERMINO         reduce using rule 12 (funcao -> SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    FIM             reduce using rule 12 (funcao -> SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    ELSE            reduce using rule 12 (funcao -> SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    FECHA           reduce using rule 12 (funcao -> SOMA ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+
+
 state 109
 
-    (12) funcao -> SOMA ABRE id VIRGULA id VIRGULA id FECHA .
+    (13) funcao -> SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA .
 
-    IF              reduce using rule 12 (funcao -> SOMA ABRE id VIRGULA id VIRGULA id FECHA .)
-    ENQUANTO        reduce using rule 12 (funcao -> SOMA ABRE id VIRGULA id VIRGULA id FECHA .)
-    EVAL            reduce using rule 12 (funcao -> SOMA ABRE id VIRGULA id VIRGULA id FECHA .)
-    variavel        reduce using rule 12 (funcao -> SOMA ABRE id VIRGULA id VIRGULA id FECHA .)
-    SOMA            reduce using rule 12 (funcao -> SOMA ABRE id VIRGULA id VIRGULA id FECHA .)
-    MULT            reduce using rule 12 (funcao -> SOMA ABRE id VIRGULA id VIRGULA id FECHA .)
-    ZERO            reduce using rule 12 (funcao -> SOMA ABRE id VIRGULA id VIRGULA id FECHA .)
-    TERMINO         reduce using rule 12 (funcao -> SOMA ABRE id VIRGULA id VIRGULA id FECHA .)
-    FIM             reduce using rule 12 (funcao -> SOMA ABRE id VIRGULA id VIRGULA id FECHA .)
-    ELSE            reduce using rule 12 (funcao -> SOMA ABRE id VIRGULA id VIRGULA id FECHA .)
-    FECHA           reduce using rule 12 (funcao -> SOMA ABRE id VIRGULA id VIRGULA id FECHA .)
+    variavel        reduce using rule 13 (funcao -> SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    IF              reduce using rule 13 (funcao -> SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    ENQUANTO        reduce using rule 13 (funcao -> SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    EVAL            reduce using rule 13 (funcao -> SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    SOMA            reduce using rule 13 (funcao -> SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    MULT            reduce using rule 13 (funcao -> SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    ZERO            reduce using rule 13 (funcao -> SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    TERMINO         reduce using rule 13 (funcao -> SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    FIM             reduce using rule 13 (funcao -> SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    ELSE            reduce using rule 13 (funcao -> SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    FECHA           reduce using rule 13 (funcao -> SOMA ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
 
 
 state 110
 
-    (13) funcao -> SOMA ABRE id VIRGULA numero VIRGULA id FECHA .
+    (15) funcao -> SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA .
 
-    IF              reduce using rule 13 (funcao -> SOMA ABRE id VIRGULA numero VIRGULA id FECHA .)
-    ENQUANTO        reduce using rule 13 (funcao -> SOMA ABRE id VIRGULA numero VIRGULA id FECHA .)
-    EVAL            reduce using rule 13 (funcao -> SOMA ABRE id VIRGULA numero VIRGULA id FECHA .)
-    variavel        reduce using rule 13 (funcao -> SOMA ABRE id VIRGULA numero VIRGULA id FECHA .)
-    SOMA            reduce using rule 13 (funcao -> SOMA ABRE id VIRGULA numero VIRGULA id FECHA .)
-    MULT            reduce using rule 13 (funcao -> SOMA ABRE id VIRGULA numero VIRGULA id FECHA .)
-    ZERO            reduce using rule 13 (funcao -> SOMA ABRE id VIRGULA numero VIRGULA id FECHA .)
-    TERMINO         reduce using rule 13 (funcao -> SOMA ABRE id VIRGULA numero VIRGULA id FECHA .)
-    FIM             reduce using rule 13 (funcao -> SOMA ABRE id VIRGULA numero VIRGULA id FECHA .)
-    ELSE            reduce using rule 13 (funcao -> SOMA ABRE id VIRGULA numero VIRGULA id FECHA .)
-    FECHA           reduce using rule 13 (funcao -> SOMA ABRE id VIRGULA numero VIRGULA id FECHA .)
+    variavel        reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    IF              reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    ENQUANTO        reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    EVAL            reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    SOMA            reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    MULT            reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    ZERO            reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    TERMINO         reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    FIM             reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    ELSE            reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    FECHA           reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
 
 
 state 111
 
-    (15) funcao -> SOMA ABRE numero VIRGULA numero VIRGULA id FECHA .
+    (14) funcao -> SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA .
 
-    IF              reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    ENQUANTO        reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    EVAL            reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    variavel        reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    SOMA            reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    MULT            reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    ZERO            reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    TERMINO         reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    FIM             reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    ELSE            reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    FECHA           reduce using rule 15 (funcao -> SOMA ABRE numero VIRGULA numero VIRGULA id FECHA .)
+    variavel        reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    IF              reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    ENQUANTO        reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    EVAL            reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    SOMA            reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    MULT            reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    ZERO            reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    TERMINO         reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    FIM             reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    ELSE            reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    FECHA           reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
 
 
 state 112
 
-    (14) funcao -> SOMA ABRE numero VIRGULA id VIRGULA id FECHA .
+    (16) funcao -> MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA .
 
-    IF              reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA id VIRGULA id FECHA .)
-    ENQUANTO        reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA id VIRGULA id FECHA .)
-    EVAL            reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA id VIRGULA id FECHA .)
-    variavel        reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA id VIRGULA id FECHA .)
-    SOMA            reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA id VIRGULA id FECHA .)
-    MULT            reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA id VIRGULA id FECHA .)
-    ZERO            reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA id VIRGULA id FECHA .)
-    TERMINO         reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA id VIRGULA id FECHA .)
-    FIM             reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA id VIRGULA id FECHA .)
-    ELSE            reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA id VIRGULA id FECHA .)
-    FECHA           reduce using rule 14 (funcao -> SOMA ABRE numero VIRGULA id VIRGULA id FECHA .)
+    variavel        reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    IF              reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    ENQUANTO        reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    EVAL            reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    SOMA            reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    MULT            reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    ZERO            reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    TERMINO         reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    FIM             reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    ELSE            reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
+    FECHA           reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA variavel FECHA .)
 
 
 state 113
 
-    (16) funcao -> MULT ABRE numero VIRGULA numero VIRGULA id FECHA .
+    (19) funcao -> MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA .
 
-    IF              reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    ENQUANTO        reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    EVAL            reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    variavel        reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    SOMA            reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    MULT            reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    ZERO            reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    TERMINO         reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    FIM             reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    ELSE            reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA id FECHA .)
-    FECHA           reduce using rule 16 (funcao -> MULT ABRE numero VIRGULA numero VIRGULA id FECHA .)
+    variavel        reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    IF              reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    ENQUANTO        reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    EVAL            reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    SOMA            reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    MULT            reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    ZERO            reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    TERMINO         reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    FIM             reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    ELSE            reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
+    FECHA           reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA variavel VIRGULA variavel FECHA .)
 
 
 state 114
 
-    (19) funcao -> MULT ABRE numero VIRGULA id VIRGULA id FECHA .
+    (17) funcao -> MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .
 
-    IF              reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA id VIRGULA id FECHA .)
-    ENQUANTO        reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA id VIRGULA id FECHA .)
-    EVAL            reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA id VIRGULA id FECHA .)
-    variavel        reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA id VIRGULA id FECHA .)
-    SOMA            reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA id VIRGULA id FECHA .)
-    MULT            reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA id VIRGULA id FECHA .)
-    ZERO            reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA id VIRGULA id FECHA .)
-    TERMINO         reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA id VIRGULA id FECHA .)
-    FIM             reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA id VIRGULA id FECHA .)
-    ELSE            reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA id VIRGULA id FECHA .)
-    FECHA           reduce using rule 19 (funcao -> MULT ABRE numero VIRGULA id VIRGULA id FECHA .)
+    variavel        reduce using rule 17 (funcao -> MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    IF              reduce using rule 17 (funcao -> MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    ENQUANTO        reduce using rule 17 (funcao -> MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    EVAL            reduce using rule 17 (funcao -> MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    SOMA            reduce using rule 17 (funcao -> MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    MULT            reduce using rule 17 (funcao -> MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    ZERO            reduce using rule 17 (funcao -> MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    TERMINO         reduce using rule 17 (funcao -> MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    FIM             reduce using rule 17 (funcao -> MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    ELSE            reduce using rule 17 (funcao -> MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
+    FECHA           reduce using rule 17 (funcao -> MULT ABRE variavel VIRGULA variavel VIRGULA variavel FECHA .)
 
 
 state 115
 
-    (17) funcao -> MULT ABRE id VIRGULA id VIRGULA id FECHA .
+    (18) funcao -> MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA .
 
-    IF              reduce using rule 17 (funcao -> MULT ABRE id VIRGULA id VIRGULA id FECHA .)
-    ENQUANTO        reduce using rule 17 (funcao -> MULT ABRE id VIRGULA id VIRGULA id FECHA .)
-    EVAL            reduce using rule 17 (funcao -> MULT ABRE id VIRGULA id VIRGULA id FECHA .)
-    variavel        reduce using rule 17 (funcao -> MULT ABRE id VIRGULA id VIRGULA id FECHA .)
-    SOMA            reduce using rule 17 (funcao -> MULT ABRE id VIRGULA id VIRGULA id FECHA .)
-    MULT            reduce using rule 17 (funcao -> MULT ABRE id VIRGULA id VIRGULA id FECHA .)
-    ZERO            reduce using rule 17 (funcao -> MULT ABRE id VIRGULA id VIRGULA id FECHA .)
-    TERMINO         reduce using rule 17 (funcao -> MULT ABRE id VIRGULA id VIRGULA id FECHA .)
-    FIM             reduce using rule 17 (funcao -> MULT ABRE id VIRGULA id VIRGULA id FECHA .)
-    ELSE            reduce using rule 17 (funcao -> MULT ABRE id VIRGULA id VIRGULA id FECHA .)
-    FECHA           reduce using rule 17 (funcao -> MULT ABRE id VIRGULA id VIRGULA id FECHA .)
-
-
-state 116
-
-    (18) funcao -> MULT ABRE id VIRGULA numero VIRGULA id FECHA .
-
-    IF              reduce using rule 18 (funcao -> MULT ABRE id VIRGULA numero VIRGULA id FECHA .)
-    ENQUANTO        reduce using rule 18 (funcao -> MULT ABRE id VIRGULA numero VIRGULA id FECHA .)
-    EVAL            reduce using rule 18 (funcao -> MULT ABRE id VIRGULA numero VIRGULA id FECHA .)
-    variavel        reduce using rule 18 (funcao -> MULT ABRE id VIRGULA numero VIRGULA id FECHA .)
-    SOMA            reduce using rule 18 (funcao -> MULT ABRE id VIRGULA numero VIRGULA id FECHA .)
-    MULT            reduce using rule 18 (funcao -> MULT ABRE id VIRGULA numero VIRGULA id FECHA .)
-    ZERO            reduce using rule 18 (funcao -> MULT ABRE id VIRGULA numero VIRGULA id FECHA .)
-    TERMINO         reduce using rule 18 (funcao -> MULT ABRE id VIRGULA numero VIRGULA id FECHA .)
-    FIM             reduce using rule 18 (funcao -> MULT ABRE id VIRGULA numero VIRGULA id FECHA .)
-    ELSE            reduce using rule 18 (funcao -> MULT ABRE id VIRGULA numero VIRGULA id FECHA .)
-    FECHA           reduce using rule 18 (funcao -> MULT ABRE id VIRGULA numero VIRGULA id FECHA .)
+    variavel        reduce using rule 18 (funcao -> MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    IF              reduce using rule 18 (funcao -> MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    ENQUANTO        reduce using rule 18 (funcao -> MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    EVAL            reduce using rule 18 (funcao -> MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    SOMA            reduce using rule 18 (funcao -> MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    MULT            reduce using rule 18 (funcao -> MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    ZERO            reduce using rule 18 (funcao -> MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    TERMINO         reduce using rule 18 (funcao -> MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    FIM             reduce using rule 18 (funcao -> MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    ELSE            reduce using rule 18 (funcao -> MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
+    FECHA           reduce using rule 18 (funcao -> MULT ABRE variavel VIRGULA numero VIRGULA variavel FECHA .)
 

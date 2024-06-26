@@ -1,0 +1,26 @@
+INICIO
+i, j, sum, product, result
+MONITOR i, j, sum, result
+EXECUTE
+i = 1
+j = 1
+sum = 0
+product = 1
+result = 0
+
+ENQUANTO i < 5 FACA
+    j = 1
+    ENQUANTO j < 5 FACA
+        MULT(i, j, product)
+        SOMA(sum, product, sum)
+        IF product > 10 THEN
+            SOMA(result, sum, result)
+        ELSE
+            SOMA(result, 1, result)
+        FIM
+        SOMA(j, 1, j)
+    FIM
+    SOMA(i, 1, i)
+FIM
+
+TERMINO
