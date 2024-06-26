@@ -80,6 +80,8 @@ lexer = lex.lex(debug=True)
 inicializados = []
 # Tokens a serem monitorados
 monitorar = []
+# Checa uso do else
+if_usado =  False
 
 def p_regra_INICIO(regras):
     '''
@@ -103,8 +105,8 @@ def p_regra_cmd(regras):
     cmd : id IGUAL numero
         | id IGUAL id
         | funcao
-        | IF condicao THEN cmd
-        | ELSE cmd
+        | IF condicao THEN cmds
+        | ELSE cmds
         | ENQUANTO condicao FACA cmds FIM
         | EVAL ABRE id VIRGULA id VIRGULA cmds FECHA
         | EVAL ABRE numero VIRGULA numero VIRGULA cmds FECHA
@@ -123,8 +125,10 @@ def p_regra_cmd(regras):
         regras[0] = regras[1]
     elif regras[1] == 'IF':
         regras[0] = f"if ({regras[2]}) {{\n\t\t{regras[4]}\n\t}}"
-    elif regras[1] == 'ELSE':
+        if_usado = True
+    elif regras[1] == 'ELSE' and if_usado == True:
         regras[0] = f"else {{\n\t\t{regras[2]}\n\t}}"
+        if_usado = False
     else:
         if regras[1] in monitorar:
             if regras[3] in monitorar:
@@ -161,11 +165,10 @@ def p_regra_cmd(regras):
 
 def p_regra_funcao(regras):
     '''
-    funcao : SOMA ABRE id VIRGULA id FECHA
+    funcao : SOMA ABRE id VIRGULA id VIRGULAFECHA
            | SOMA ABRE id VIRGULA numero FECHA
            | MULT ABRE id VIRGULA id FECHA
            | MULT ABRE id VIRGULA numero FECHA
-           | id IGUAL MULT ABRE id VIRGULA
            | ZERO ABRE id FECHA
     '''
 
