@@ -300,8 +300,11 @@ def p_error(regras):
 
 parser = yacc.yacc(debug=True, write_tables=True)
 
-leitura = input("Digite o código:")
+with open('codigo.txt', 'r') as file:
+# Lê todo o conteúdo do arquivo e guarda na variável 'conteudo'
+    leitura = file.read()
 resultado = parser.parse(leitura)
+
 print("Resultado:", resultado)
 print("Monitorar:", monitorar)
 print("Inicializados:", inicializados)
